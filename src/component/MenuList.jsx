@@ -52,14 +52,14 @@ export default function MenuList({ order, list }) {
 
     return (
         <div className={` m-2 border rounded shadow-sm p-2 ${(list.status==="cancel")?"bg-red-500":"bg-gray-100"}`}>
-            <div className="text-xs text-gray-500 font-bold">Order ID: {order.orderId}</div>
+            <div className="text-xs text-gray-500 font-bold">Order ID: {order.orderId}  recieved time:{list.orderTime.toLocaleString("th-TH")}</div>
             <div className={`p-2 rounded transition ${
                     (list.status != "finished")&&(list.status != "cancel") ? "bg-orange-100 hover:bg-orange-200 cursor-pointer" : "bg-gray-200 cursor-default"
                 }`} 
                 onClick={countTimeHandler}
             >
                 <div className={"flex justify-between items-center "}>
-                    <span>{list.id} : {list.name} (x{list.quantity})</span>
+                    <span>{list.id} : {list.name} (x{list.quantity})   </span>
                     
                     <span className={`font-mono text-[2vh] font-bold ${list.status==="Cook"?countdownTime < 10 ? "text-red-600" : "text-blue-600":"text-black"}`}>
                         {`${(list.status!="Cook")?"estimate cooking time ": "cooking time reamin "}`} :{countdownTime}s

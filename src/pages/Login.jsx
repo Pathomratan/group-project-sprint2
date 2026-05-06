@@ -41,9 +41,10 @@ const checkLogin=()=>{
 
 
 return(
-<div className="flex flex-col min-w-full  bg-secondary">
+<div className="flex flex-col min-w-full  bg-secondary"> 
 <div className="flex flex-col justify-evenly items-center content-evenly  min-h-[80vh] m-[10vh] bg-neutral">
-    <span className="font-bold">Login :  
+    <h1  className="text-2xl font-bold mb-4">Login</h1>
+    <span className="font-bold">Username :  
         <input className="  border" value={inputUsername} onChange={inputUsernameHandle} type="text"></input></span>
     <span className="font-bold">password :  
         <input className=" border" value={inputPassword} onChange={inputPasswordHandle} type="password"></input></span>
