@@ -23,6 +23,7 @@ export default function App() {
         <Route path="/order" element={<Order />} />
         <Route path="/home" element={<Index />} />
         <Route path="/menu" element={<MenuPage />} />
+        <Route path="/custtomertrack" element={<DeliveryTracking/>} />
         
 
 
