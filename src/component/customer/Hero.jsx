@@ -30,17 +30,17 @@ export default function Hero() {
       {/* ─── Image Container ─── */}
       <div
         // เอาคลาส group ออกไปแล้ว เพื่อไม่ให้มันส่งสัญญาณ Hover ไปที่รูป
-        className={`h-[400px] md:h-[70vh] bg-[#1c1c1c] relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-y border-white/5 overflow-hidden transition-all duration-[1200ms] ease-[cubic-bezier(0.25,1,0.5,1)] ${
+        className={`h-100 md:h-[70vh] bg-[#1c1c1c] relative shadow-[0_20px_50px_rgba(0,0,0,0.5)] border-y border-white/5 overflow-hidden transition-all duration-1200 ease-[cubic-bezier(0.25,1,0.5,1)] ${
           isExpanded
             ? "w-full max-w-full rounded-none" // ตอนขยาย: กางเต็ม 100% ขอบเหลี่ยม นิ่งๆ
-            : "w-[90%] md:w-[85%] max-w-[1400px] rounded-[2rem] md:rounded-[3rem]" // ตอนโหลดครั้งแรก
+            : "w-[90%] md:w-[85%] max-w-350 rounded-4xl md:rounded-[3rem]" // ตอนโหลดครั้งแรก
         }`}
       >
         <img
           src="/images/hero-1.png"
           alt="Serious Punch Hero"
           // เอา hover:scale-105 ออกไปแล้ว ภาพจะอยู่นิ่งๆ ทรงพลัง
-          className="w-full h-full object-cover grayscale-[20%] contrast-[110%] brightness-[90%]"
+          className="w-full h-full object-cover grayscale-20] contrast-110 brightness-90"
         />
       </div>
     </section>

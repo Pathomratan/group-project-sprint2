@@ -34,9 +34,9 @@ export default function ProductCard({ item }) {
   };
 
   return (
-    <div className="w-60 md:w-[280px] flex flex-col group cursor-pointer shrink-0">
+    <div className="w-60 md:w-70 flex flex-col group cursor-pointer shrink-0">
       {/* ─── Image Area: บังคับความสูงและตัดส่วนเกินทิ้ง (object-cover) ─── */}
-      <div className="relative w-full h-80 md:h-[380px] mb-4 overflow-hidden rounded-md bg-gray-100">
+      <div className="relative w-full h-80 md:h-95 mb-4 overflow-hidden rounded-md bg-gray-100">
         {renderSticker(item?.badge)}
         <img
           // 🚨 แก้ไขตรงนี้: ดึงรูปจาก item.image มาใส่ตรงๆ เลย (รูปจาก DB)

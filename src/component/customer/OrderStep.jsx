@@ -118,7 +118,7 @@ export default function OrderStep() {
   return (
     <div className="w-full flex flex-col relative">
       <section className="w-full bg-[#eeeeee] relative pb-[10vh]">
-        <div className="sticky top-[60px] md:top-[80px] z-40 bg-[#eeeeee] pt-12 pb-6 px-4 w-full">
+        <div className="sticky top-15 md:top-20 z-40 bg-[#eeeeee] pt-12 pb-6 px-4 w-full">
           <div className="w-full max-w-7xl mx-auto md:px-8">
             <h2 className="text-4xl md:text-5xl font-['Bebas_Neue'] font-black text-[#242424] tracking-widest uppercase text-center md:text-left md:ml-[33%]">
               CHOOSE YOUR <span className="text-[#e4002b]">FIGHTING STYLE</span>
@@ -128,7 +128,7 @@ export default function OrderStep() {
 
         <div className="w-full max-w-7xl mx-auto px-4 md:px-8 mt-4 md:mt-12">
           <div className="flex flex-col md:flex-row gap-8 md:gap-16 relative items-start">
-            <div className="md:w-1/3 w-full md:sticky md:top-[200px] flex flex-row md:flex-col justify-center gap-6 z-30 sticky top-[130px] bg-[#eeeeee]/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none py-4 md:border-none border-b border-gray-200">
+            <div className="md:w-1/3 w-full md:sticky md:top-50 flex flex-row md:flex-col justify-center gap-6 z-30 sticky top-32.5 bg-[#eeeeee]/90 md:bg-transparent backdrop-blur-md md:backdrop-blur-none py-4 md:border-none border-b border-gray-200">
               {steps.map((step, index) => (
                 <button
                   key={step.id}
@@ -169,13 +169,13 @@ export default function OrderStep() {
                 <div
                   key={step.id}
                   ref={(el) => (cardRefs.current[index] = el)}
-                  className={`flex flex-col bg-white rounded-[24px] p-6 md:p-8 shadow-sm border w-full max-w-[480px] transition-all duration-700 ${
+                  className={`flex flex-col bg-white rounded-3xl p-6 md:p-8 shadow-sm border w-full max-w-120 transition-all duration-700 ${
                     activeStep === step.id
                       ? "opacity-100 translate-y-0"
                       : "opacity-30 translate-y-12"
                   }`}
                 >
-                  <div className="w-full h-[180px] md:h-[200px] relative mb-8 flex justify-center items-end">
+                  <div className="w-full h-45 md:h-50 relative mb-8 flex justify-center items-end">
                     <img
                       src={step.image}
                       alt={step.title}
@@ -268,7 +268,7 @@ export default function OrderStep() {
                         </div>
                       ) : (
                         /* ดันพื้นที่เปล่าๆ ไว้สำหรับ ANYWHERE เพื่อให้ระดับตัวหนังสือเท่ากับการ์ดอื่น */
-                        <div className="h-[104px] w-full"></div>
+                        <div className="h-26 w-full"></div>
                       )}
 
                       <h3 className="text-3xl font-['Bebas_Neue'] text-white mb-2">
@@ -282,7 +282,7 @@ export default function OrderStep() {
                 ))}
               </div>
 
-              <button className="bg-white text-[#242424] font-['Bebas_Neue'] text-2xl md:text-3xl tracking-widest py-4 md:py-5 px-16 shadow-[8px_8px_0_#e4002b] hover:translate-y-[4px] hover:translate-x-[4px] hover:shadow-[4px_4px_0_#e4002b] transition-all rounded-none border-2 border-white group relative overflow-hidden">
+              <button className="bg-white text-[#242424] font-['Bebas_Neue'] text-2xl md:text-3xl tracking-widest py-4 md:py-5 px-16 shadow-[8px_8px_0_#e4002b] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0_#e4002b] transition-all rounded-none border-2 border-white group relative overflow-hidden">
                 <span className="relative z-10 group-hover:text-white transition-colors duration-300">
                   START YOUR ORDER
                 </span>

@@ -38,12 +38,12 @@ export default function BrandValue() {
   const isDark = fillPercent > 55;
 
   return (
-    // 🚨 ลบ my-8 ออกแล้ว เพื่อให้รอยต่อด้านบนติดกับ Hero แนบสนิท
+    // ลบ my-8 ออกแล้ว เพื่อให้รอยต่อด้านบนติดกับ Hero แนบสนิท
     <section
       ref={sectionRef}
       className="relative w-full py-16 md:py-32 overflow-hidden"
     >
-      {/* ─── 🔮 CSS สำหรับแอนิเมชันตอนกลายร่าง (สั่นกึกๆ) ─── */}
+      {/* ─── CSS สำหรับแอนิเมชันตอนกลายร่าง (สั่นกึกๆ) ─── */}
       <style
         dangerouslySetInnerHTML={{
           __html: `
@@ -109,7 +109,7 @@ export default function BrandValue() {
                       strokeWidth={2.5}
                       className={`relative z-10 w-5 h-5 text-[#DC5F00] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
                         isDark
-                          ? "opacity-100 scale-125 rotate-[15deg]"
+                          ? "opacity-100 scale-125 rotate-15"
                           : "opacity-0 scale-50 rotate-0"
                       }`}
                     />

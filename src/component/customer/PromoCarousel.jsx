@@ -88,7 +88,7 @@ export default function PromoCarousel({ title, items }) {
           {/* 1. เปลี่ยนจาก <div /> เป็น <a /> (Link Tag) */}
           <a
             href="/all-menu" // แก้เป็น Path ที่ต้องการเลิ้งค์ไป (join the crispy club / see all menu)
-            className="shrink-0 w-[300px] md:w-[450px] h-[320px] md:h-[380px] rounded-md overflow-hidden relative group cursor-pointer bg-[#242424] flex items-center justify-center shadow-lg border border-[#333] transition-all duration-300"
+            className="shrink-0 w-75 md:w-112.5 h-80 md:h-95 rounded-md overflow-hidden relative group cursor-pointer bg-[#242424] flex items-center justify-center shadow-lg border border-[#333] transition-all duration-300"
           >
             <img
               src="/images/serious-punch-lifestyle.jpg"
