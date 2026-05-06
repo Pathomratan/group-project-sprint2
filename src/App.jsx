@@ -11,6 +11,7 @@ import CheckoutPage from "./pages/cashier/CheckoutPage";
 import TableMap from "./pages/shared/TableMap";
 import OrderList from "./pages/cashier/OrderList";
 import OrderHistory from "./pages/cashier/OrderHistory";
+import MenuPage from "./pages/customer/MenuPage";
 
 export default function App() {
   return (
@@ -21,6 +22,9 @@ export default function App() {
         {/* คุณสามารถเพิ่ม Route อื่นๆ เช่น /menu หรือ /order ได้ที่นี่ */}
         <Route path="/order" element={<Order />} />
         <Route path="/home" element={<Index />} />
+        <Route path="/menu" element={<MenuPage />} />
+        
+
 
         {/* เพิ่ม Route ของ chasier / shared (with waiter)  */}
         <Route path="/cashier/checkout" element={<CheckoutPage />} />
