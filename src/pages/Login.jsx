@@ -1,13 +1,18 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { usersInfo } from "../assets/usersInfo"
 import { UserContext } from "../context/userContext/UserContext";
 import { useNavigate,Link } from 'react-router-dom';
 
 export default function Login(){
 const navigate= useNavigate();
-const {myUserInfo,setMyUserInfo}=useContext(UserContext)
-
-
+const {myUserInfo,setMyUserInfo,currLogin}=useContext(UserContext)
+useEffect(()=>{
+    
+    if(currLogin){
+        console.log(currLogin);
+        navigate('/menu');
+    }});
+ console.log(currLogin);
 const [loginText,setLoginText]=useState("Hello");
 const [inputUsername,setInputUsername]=useState("");
 const [inputPassword,setInputPassword]=useState("");
