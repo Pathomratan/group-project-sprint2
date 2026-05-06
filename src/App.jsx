@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbarmenu from "./component/Navbarmenu";
 import CookBoard from "./pages/CookBoard";
-import Index from "./pages/Index";
+import IndexPage from "./pages/customer/IndexPage";
 import Order from "./pages/Order";
 import Buttonmenu from "./component/Buttonmenu";
 import Login from "./pages/Login";
@@ -21,10 +21,8 @@ export default function App() {
         <Route path="/" element={<Buttonmenu />} />
         {/* คุณสามารถเพิ่ม Route อื่นๆ เช่น /menu หรือ /order ได้ที่นี่ */}
         <Route path="/order" element={<Order />} />
-        <Route path="/home" element={<Index />} />
+        <Route path="/home" element={<IndexPage />} />
         <Route path="/menu" element={<MenuPage />} />
-        
-
 
         {/* เพิ่ม Route ของ chasier / shared (with waiter)  */}
         <Route path="/cashier/checkout" element={<CheckoutPage />} />
