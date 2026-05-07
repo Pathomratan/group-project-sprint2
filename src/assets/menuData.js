@@ -9,7 +9,7 @@ export const CATEGORIES = [
     id: "pro",
     title: "PROMOTIONS",
     desc: "Deals so good, it's a crime. Grab 'em before they're gone!",
-    img: "/images/cat-1.png",
+    img: "/images/cat-promo.png",
     link: "/menu",
     badge: "promo",
   },
@@ -17,7 +17,7 @@ export const CATEGORIES = [
     id: "c1",
     title: "ALL BUCKETS",
     desc: "Grab the squad. Overflowing with crispy, golden perfection.",
-    img: "/images/cat-2.png",
+    img: "/images/cat-bucket.png",
     link: "/menu?tab=bucket",
     badge: "top-sale",
   },
@@ -25,7 +25,7 @@ export const CATEGORIES = [
     id: "c2",
     title: "SANDWICHES",
     desc: "Bold flavors, messy hands. Your new favorite chicken buns.",
-    img: "/images/pro-4.png",
+    img: "/images/cat-sandwich.png",
     link: "/menu?tab=sandwich",
     badge: "new",
   },
@@ -33,7 +33,7 @@ export const CATEGORIES = [
     id: "c3",
     title: "SIDES",
     desc: "Never just a backup. The perfect crispy and savory sidekicks.",
-    img: "/images/cat-4.png",
+    img: "/images/cat-side.png",
     link: "/menu?tab=side",
   },
 ];
@@ -62,7 +62,7 @@ export const PROMOTIONS = [
     title: "CHICKSKATE",
     price: "฿189.-",
     cal: "950 Cal.",
-    img: "/images/pro-4.png",
+    img: "/images/pro-chickskate.png",
   },
 ];
 
@@ -70,11 +70,11 @@ export const PROMOTIONS = [
 export const MENU = [
   // --- BUCKETS ---
   {
-    id: 1,
+    id: "M1",
     name: "Signature 8pc Bucket",
     price: 299,
     cat: "bucket",
-    img: "/images/menu-profile-1.png",
+    img: "/images/menu-sig8pcbuc.png",
     desc: "Classic Original Recipe chicken.",
     fullDesc:
       "8 pieces of our world-famous Original Recipe chicken, hand-breaded and freshly prepared with our secret blend of 11 herbs and spices. Perfect for sharing (or keeping to yourself).",
@@ -82,11 +82,11 @@ export const MENU = [
     allergens: ["Gluten", "Soy", "Egg"],
   },
   {
-    id: 2,
+    id: "M2",
     name: "Party Pack 20pc",
     price: 555,
     cat: "bucket",
-    img: "/images/menu-profile-2.png",
+    img: "/images/menu-partypack.png",
     desc: "Extra spicy bucket.",
     fullDesc:
       "A massive bucket of our spiciest, crunchiest fried chicken. Marinated in fiery chili sauce and double-breaded for maximum crunch. Warning: Not for the faint of heart.",
@@ -94,11 +94,11 @@ export const MENU = [
     allergens: ["Gluten", "Soy"],
   },
   {
-    id: 3,
+    id: "M3",
     name: "Zabb Team Box",
     price: 149,
     cat: "bucket",
-    img: "/images/menu-profile-3.png",
+    img: "/images/menu-zabbteambox.png",
     desc: "Wingz Zabb + nuggets combo.",
     fullDesc:
       "The ultimate snack box. Featuring our signature spicy 'Zabb' chicken wings paired with golden, crispy chicken nuggets. The perfect combo for game night.",
@@ -111,11 +111,11 @@ export const MENU = [
     allergens: ["Gluten", "Soy"],
   },
   {
-    id: "p1",
+    id: "M4",
     name: "Smile Bucket",
     price: 199,
     cat: "bucket",
-    img: "/images/pro-1.png",
+    img: "/images/menu-smilebucket2.png",
     desc: "Limited time smile bucket.",
     fullDesc:
       "Put a smile on your face with this limited-edition bucket. Includes a mix of crispy chicken pieces and special smiley-face potato bites.",
@@ -123,11 +123,11 @@ export const MENU = [
     allergens: ["Gluten"],
   },
   {
-    id: "t2",
+    id: "M5",
     name: "Chick N' Share",
     price: 99,
     cat: "bucket",
-    img: "/images/pro-3.png",
+    img: "/images/menu-chicknshare.png",
     desc: "Perfect for sharing.",
     fullDesc:
       "A generous serving of our bite-sized chicken pops. Crispy on the outside, juicy on the inside. Share it with a friend, if you can.",
@@ -137,11 +137,11 @@ export const MENU = [
 
   // --- SANDWICHES ---
   {
-    id: 4,
+    id: "M6",
     name: "Spicy Chicken Sandwich",
     price: 89,
     cat: "sandwich",
-    img: "/images/menu-profile-4.png",
+    img: "/images/menu-spicychicksand.png",
     desc: "Crispy, spicy, and juicy.",
     fullDesc:
       "A fiery, hand-breaded chicken breast fillet topped with spicy mayo and crisp pickles, all hugged by a toasted brioche bun.",
@@ -154,11 +154,11 @@ export const MENU = [
     allergens: ["Gluten", "Egg", "Dairy", "Soy"],
   },
   {
-    id: 5,
+    id: "M7",
     name: "Classic Sandwich",
     price: 69,
     cat: "sandwich",
-    img: "/images/menu-profile-5.png",
+    img: "/images/menu-classsandwich.png",
     desc: "Original crispy chicken.",
     fullDesc:
       "The one that started it all. A premium white meat chicken breast, double-breaded for extra crunch, served with fresh lettuce and our signature house sauce.",
@@ -166,11 +166,11 @@ export const MENU = [
     allergens: ["Gluten", "Egg", "Sesame"],
   },
   {
-    id: 6,
+    id: "M8",
     name: "Zinger Double",
     price: 199,
     cat: "sandwich",
-    img: "/images/menu-profile-6.png",
+    img: "/images/menu-zinger.png",
     desc: "Double patty, double flavor.",
     fullDesc:
       "Two massive spicy Zinger chicken patties stacked high with melted cheddar cheese, bacon, and zesty sauce. You'll need both hands for this one.",
@@ -184,11 +184,11 @@ export const MENU = [
     allergens: ["Gluten", "Dairy", "Egg", "Soy"],
   },
   {
-    id: "n1",
+    id: "M9",
     name: "Chickskate",
     price: 199,
     cat: "sandwich",
-    img: "/images/pro-4.png",
+    img: "/images/menu-chickskate.png",
     desc: "New street style sandwich.",
     fullDesc:
       "Our latest street-inspired creation. A massive crispy chicken cutlet extending way past the bun, topped with Korean Gochujang glaze and fresh slaw.",
@@ -203,11 +203,11 @@ export const MENU = [
 
   // --- SIDES ---
   {
-    id: 7,
+    id: "M10",
     name: "Golden Fries (L)",
     price: 49,
     cat: "side",
-    img: "/images/menu-profile-7.png",
+    img: "/images/menu-goldenfries.png",
     desc: "Golden crispy fries.",
     fullDesc:
       "Thick-cut premium potatoes, fried to a perfect golden crisp and lightly salted. The ultimate companion to any meal.",
@@ -215,11 +215,11 @@ export const MENU = [
     allergens: ["None"],
   },
   {
-    id: 8,
+    id: "M11",
     name: "Coleslaw",
     price: 39,
     cat: "side",
-    img: "/images/menu-profile-8.png",
+    img: "/images/menu-coleslaw.png",
     desc: "Creamy classic slaw.",
     fullDesc:
       "Freshly chopped cabbage, carrots, and onions mixed in our signature sweet and tangy creamy dressing. A refreshing palate cleanser.",
@@ -227,11 +227,11 @@ export const MENU = [
     allergens: ["Egg", "Soy"],
   },
   {
-    id: 9,
+    id: "M12",
     name: "Mac & Cheese",
     price: 49,
     cat: "side",
-    img: "/images/menu-profile-9.png",
+    img: "/images/menu-maccheese.png",
     desc: "Creamy, cheesey goodness.",
     fullDesc:
       "Comfort food at its finest. Tender elbow macaroni baked in a rich, gooey blend of cheddar and parmesan cheese.",
@@ -246,7 +246,7 @@ export const MENU = [
     soldOut: true,
   },
   {
-    id: 12,
+    id: "M13",
     name: "Tteokbokki",
     price: 89,
     cat: "side",
@@ -263,7 +263,7 @@ export const MENU = [
     allergens: ["Gluten", "Soy", "Fish"],
   },
   {
-    id: 13,
+    id: "M14",
     name: "Seafood Pajeon",
     price: 99,
     cat: "side",
@@ -281,7 +281,7 @@ export const MENU = [
     allergens: ["Gluten", "Shellfish", "Soy"],
   },
   {
-    id: 14,
+    id: "M15",
     name: "Japchae",
     price: 79,
     cat: "side",
@@ -300,16 +300,16 @@ export const MENU = [
     allergens: ["Soy", "Sesame"],
   },
   {
-    id: 15,
-    name: "Snack Udon",
+    id: "M16",
+    name: "Hot Oden",
     price: 59,
     cat: "side",
-    img: "/images/menu-udon.png",
-    desc: "Light and savory broth.",
+    img: "/images/menu-oden.png",
+    desc: "Ltight and savory broth.",
     fullDesc:
-      "A small, comforting bowl of thick udon noodles served in a light soy and dashi broth, topped with tempura flakes and scallions.",
+      "A small, comforting bowl of thick oden noodles served in a light soy and dashi broth, topped with tempura flakes and scallions.",
     ingredients: [
-      "Udon Noodles",
+      "Oden Noodles",
       "Dashi Broth",
       "Soy Sauce",
       "Tempura Flakes",
@@ -320,11 +320,11 @@ export const MENU = [
 
   // --- DESSERTS ---
   {
-    id: 10,
+    id: "M17",
     name: "Chocolate Cupcake",
     price: 45,
     cat: "desserts",
-    img: "/images/menu-profile-10.png",
+    img: "/images/menu-choccup.png",
     desc: "Rich chocolate treat.",
     fullDesc:
       "A deeply rich and moist chocolate cupcake topped with a swirl of velvety dark chocolate buttercream. For the serious sweet tooth.",
@@ -332,11 +332,11 @@ export const MENU = [
     allergens: ["Gluten", "Dairy", "Egg"],
   },
   {
-    id: 11,
+    id: "M18",
     name: "Soft serve",
     price: 39,
     cat: "desserts",
-    img: "/images/menu-profile-11.png",
+    img: "/images/menu-soft.png",
     desc: "Vanilla swirl.",
     fullDesc:
       "Classic, creamy vanilla soft serve ice cream served in a crispy wafer cone. Simple, cool, and perfectly sweet.",
@@ -346,7 +346,7 @@ export const MENU = [
 
   // --- DRINKS ---
   {
-    id: 16,
+    id: "M19",
     name: "Coca-Cola",
     price: 39,
     cat: "drink",
@@ -363,11 +363,11 @@ export const MENU = [
     allergens: ["None"],
   },
   {
-    id: 17,
+    id: "M20",
     name: "Chocolate Float",
     price: 65,
     cat: "drink",
-    img: "/images/menu-float.png",
+    img: "/images/menu-chocfloat.png",
     desc: "Choco blend with vanilla top.",
     fullDesc:
       "A decadent icy chocolate blend, topped generously with a swirl of our signature vanilla soft serve. It's a drink and a dessert all in one.",
@@ -375,7 +375,7 @@ export const MENU = [
     allergens: ["Dairy"],
   },
   {
-    id: 18,
+    id: "M21",
     name: "Soju (Original)",
     price: 150,
     cat: "drink",
@@ -387,7 +387,7 @@ export const MENU = [
     allergens: ["None"],
   },
   {
-    id: 19,
+    id: "M22",
     name: "Makgeolli",
     price: 180,
     cat: "drink",
