@@ -10,7 +10,7 @@ const MenuCard = ({ item, onAddToCart }) => {
       <div>
         <div className="h-45 bg-[#f0f0f0] relative overflow-hidden group">
           <img
-            src={item.img}
+            src={item.image}
             alt={item.name}
             loading="lazy"
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 ${isSoldOut ? "grayscale opacity-50" : ""}`}

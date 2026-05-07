@@ -7,38 +7,38 @@ export const menuData = [
   {
     id: "p1",
     tag: "LIMITED TIME",
-    title: "SMILE BUCKET",
+    name: "SMILE BUCKET",
     price: "฿199.-",
     cal: "1200 Cal.",
     badge: "promo",
-    img: "/images/pro-1.png",
+    image: "/images/pro-1.png",
   },
   {
     id: "t1",
     tag: "HOT DROP",
-    title: "ZABB TEAM BOX",
+    name: "ZABB TEAM BOX",
     price: "฿149.-",
     cal: "850 Cal.",
     badge: "top-sale",
-    img: "/images/pro-2.png",
+    image: "/images/pro-2.png",
   },
   {
     id: "t2",
     tag: "SHARING",
-    title: "CHICK N' SHARE",
+    name: "CHICK N' SHARE",
     price: "฿99.-",
     cal: "850 Cal.",
     badge: "top-sale",
-    img: "/images/pro-3.png",
+    image: "/images/pro-3.png",
   },
   {
     id: "n1",
     tag: "NEW",
-    title: "CHICKSKATE",
+    name: "CHICKSKATE",
     price: "฿199.-",
     cal: "950 Cal.",
     badge: "new",
-    img: "/images/pro-4.png",
+    image: "/images/pro-4.png",
   },
 ];
 
@@ -48,7 +48,7 @@ export const MENU = [
     name: "Signature 8pc Bucket",
     price: 299,
     cat: "bucket",
-    img: "/images/menu-profile-1.png",
+    image: "/images/menu-profile-1.png",
     desc: "Classic Original Recipe chicken.",
   },
   {
@@ -56,7 +56,7 @@ export const MENU = [
     name: "Party Pack 20pc",
     price: 119,
     cat: "bucket",
-    img: "/images/menu-profile-2.png",
+    image: "/images/menu-profile-2.png",
     desc: "Extra spicy bucket",
   },
   {
@@ -64,7 +64,7 @@ export const MENU = [
     name: "Zabb Team Box",
     price: 149,
     cat: "bucket",
-    img: "/images/menu-profile-3.png",
+    image: "/images/menu-profile-3.png",
     desc: "Wingz Zabb + nuggets combo.",
   },
   {
@@ -72,7 +72,7 @@ export const MENU = [
     name: "Spicy Chicken Sandwich",
     price: 89,
     cat: "sandwich",
-    img: "/images/menu-profile-4.png",
+    image: "/images/menu-profile-4.png",
     desc: "Crispy, spicy, and juicy",
   },
   {
@@ -80,7 +80,7 @@ export const MENU = [
     name: "Classic Sandwich",
     price: 69,
     cat: "sandwich",
-    img: "/images/menu-profile-5.png",
+    image: "/images/menu-profile-5.png",
     desc: "Original crispy chicken",
   },
   {
@@ -88,7 +88,7 @@ export const MENU = [
     name: "Zinger Double",
     price: 199,
     cat: "sandwich",
-    img: "/images/menu-profile-6.png",
+    image: "/images/menu-profile-6.png",
     desc: "Double patty, double flavor",
   },
   {
@@ -96,7 +96,7 @@ export const MENU = [
     name: "Golden Fries (L)",
     price: 49,
     cat: "side",
-    img: "/images/menu-profile-7.png",
+    image: "/images/menu-profile-7.png",
     desc: "Golden crispy fries",
   },
   {
@@ -104,7 +104,7 @@ export const MENU = [
     name: "Coleslaw",
     price: 39,
     cat: "side",
-    img: "/images/menu-profile-8.png",
+    image: "/images/menu-profile-8.png",
     desc: "Creamy classic slaw",
   },
   {
@@ -112,7 +112,7 @@ export const MENU = [
     name: "Mac & Cheese",
     price: 49,
     cat: "side",
-    img: "/images/menu-profile-9.png",
+    image: "/images/menu-profile-9.png",
     desc: "Creamy, cheesey goodness",
     soldOut: true,
   },
@@ -121,7 +121,7 @@ export const MENU = [
     name: "Chocolate Cupcake",
     price: 45,
     cat: "desserts",
-    img: "/images/menu-profile-10.png",
+    image: "/images/menu-profile-10.png",
     desc: "Rich chocolate treat",
   },
   {
@@ -129,7 +129,8 @@ export const MENU = [
     name: "Soft serve",
     price: 39,
     cat: "desserts",
-    img: "/images/menu-profile-11.png",
+    image: "/images/menu-profile-11.png",
     desc: "Vanilla swirl",
   },
 ];
+

@@ -86,8 +86,8 @@ const MenuPage = () => {
             >
               <div className="absolute inset-0">
                 <img
-                  src={promo.img}
-                  alt={promo.title}
+                  src={promo.image}
+                  alt={promo.name}
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/50 to-transparent" />
@@ -97,7 +97,7 @@ const MenuPage = () => {
                   {promo.tag}
                 </span>
                 <h2 className="font-['Bebas_Neue'] text-5xl leading-[0.9] my-2 drop-shadow-md">
-                  {promo.title}
+                  {promo.name}
                 </h2>
                 <div className="font-['Bebas_Neue'] text-4xl mb-4">
                   {promo.price}
