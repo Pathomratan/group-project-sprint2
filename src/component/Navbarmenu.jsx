@@ -1,11 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState ,useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../assets/picture/Logo.png';
 import Slogan from '../assets/picture/slogan.png';
+import { usersInfo } from '../assets/usersInfo';
+import { UserContext } from '../context/userContext/UserContext';
 
 const Navbarmenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+const {myUserInfo}=useContext(UserContext);
+console.log(myUserInfo);
   return (
     <header className="bg-primary text-neutral shadow-lg">
       <nav className="container mx-auto px-4 py-4 flex justify-between items-center relative">
@@ -38,7 +41,7 @@ const Navbarmenu = () => {
             <li><Link to="#" className="hover:text-secondary transition duration-300">Contact</Link></li>
           </ul>
           <button className="bg-secondary hover:bg-accent text-neutral px-6 py-2 rounded-full font-semibold transition duration-300">
-            <Link to="/login">Sign In</Link>
+            <Link to="/login">{`${!usersInfo?" Sign In":"Account"}`}</Link>
           </button>
         </div>
 
@@ -64,7 +67,7 @@ const Navbarmenu = () => {
           <li><Link to="#" className="block hover:text-secondary transition duration-300">Contact</Link></li>
           <li>
             <button className="w-full bg-secondary hover:bg-accent text-neutral px-6 py-2 rounded-lg font-semibold transition duration-300">
-              <Link to="/login">Sign In</Link>
+              <Link to="/login">{`${!myUserInfo?" Sign In":"Account"}`}</Link>
             </button>
           </li>
         </ul>
