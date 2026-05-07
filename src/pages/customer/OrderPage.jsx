@@ -102,14 +102,14 @@ const OrderPage = () => {
       );
     }, 0);
   };
-  // 3. สร้างฟังก์ชันสำหรับกดปุ่มชำระเงิน
+  // // 3. สร้างฟังก์ชันสำหรับกดปุ่มชำระเงิน
   // const handleCheckout = () => {
   //   // เช็คว่ามีสินค้าในตะกร้าไหมก่อนไปหน้าชำระเงิน
   //   if (!orderList || orderList.length === 0) {
   //     alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
   //     return;
   //   }
-  // หน้า OrderPage.jsx
+  // // หน้า OrderPage.jsx
   //   const handleCheckout = () => {
   //   if (!orderList || orderList.length === 0) {
   //     alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
@@ -121,8 +121,8 @@ const OrderPage = () => {
   //   const tax = total * 0.07;
   //   const netTotal = total + tax;
 
-  //   // สั่งเปลี่ยนหน้าไปที่ URL ของ Checkout (เช่น /checkout)
-  //   // พร้อมแนบข้อมูลการจ่ายเงิน (state) ไปด้วย
+  // //   // สั่งเปลี่ยนหน้าไปที่ URL ของ Checkout (เช่น /checkout)
+  // //   // พร้อมแนบข้อมูลการจ่ายเงิน (state) ไปด้วย
   //   navigate("/payment", {
   //     state: {
   //       subTotal: total,
