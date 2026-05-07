@@ -2,13 +2,13 @@
 import React from "react";
 import { X, ShoppingBag, Minus, Plus } from "lucide-react";
 // 1. นำเข้าข้อมูลเมนู (ชื่อเดียวพอ)
-import { menuData } from "../../assets/menuData";
+import { MENU } from "../../assets/menuData";
 
 const CartSidebar = ({ isOpen, onClose, cartItems, onUpdateQty }) => {
   // 2. ปรับปรุงลอจิกการหาข้อมูลสินค้าในตะกร้า
   const cartDetails = cartItems.map((cartItem) => {
-    // หาข้อมูลดิบจาก menuData.js
-    const itemInfo = menuData.find((m) => m.id === cartItem.id);
+    // หาข้อมูลดิบจาก MENU
+    const itemInfo = MENU.find((m) => m.id === cartItem.id);
 
     // ทริค: แปลงราคาจาก "฿199.-" ให้เป็นตัวเลข 199 เพื่อเอาไปคำนวณ
     const rawPrice =

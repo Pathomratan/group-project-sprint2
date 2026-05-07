@@ -32,7 +32,7 @@ const Navbarmenu = () => {
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-8 items-center">
           <ul className="flex space-x-6">
-            <li><Link to="/home" className="hover:text-secondary transition duration-300">Home</Link></li>
+            <li><Link to="/" className="hover:text-secondary transition duration-300">Home</Link></li>
             <li><Link to="/menu" className="hover:text-secondary transition duration-300">Menu</Link></li>
             <li><Link to="/order" className="hover:text-secondary transition duration-300">Order</Link></li>
             <li><Link to="#" className="hover:text-secondary transition duration-300">Contact</Link></li>
@@ -58,7 +58,7 @@ const Navbarmenu = () => {
       {/* Mobile Menu */}
       <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden bg-primary border-t border-accent/20`}>
         <ul className="flex flex-col p-4 space-y-4">
-          <li><Link to="/home" className="block hover:text-secondary transition duration-300">Home</Link></li>
+          <li><Link to="/" className="block hover:text-secondary transition duration-300">Home</Link></li>
           <li><Link to="/menu" className="block hover:text-secondary transition duration-300">Menu</Link></li>
           <li><Link to="/order" className="block hover:text-secondary transition duration-300">Order</Link></li>
           <li><Link to="#" className="block hover:text-secondary transition duration-300">Contact</Link></li>

@@ -6,11 +6,13 @@ import MenuCard from "../../component/customer/MenuCard";
 import CartSidebar from "../../component/customer/CartSidebar";
 import {
   menuData,
+  MENU,
   AUTOPLAY_INTERVAL_MS,
   TOAST_DURATION_MS,
 } from "../../assets/menuData";
 
 const MenuPage = () => {
+  const PROMOS = menuData;
   // --- States ---
   const [activeTab, setActiveTab] = useState("all");
   const [cart, setCart] = useState(() => {

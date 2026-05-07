@@ -40,7 +40,7 @@ const OrderItem = ({ item, orderId, onUpdateQty, onRemove }) => {
           onClick={() => onRemove(orderId, item.id)}
           className="text-gray-300 hover:text-red-500 transition-colors p-2"
         >
-          :wastebasket:
+          🗑️
         </button>
       </div>
     </div>
