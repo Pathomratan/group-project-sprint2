@@ -1,19 +1,22 @@
 // src/component/Navbarmenu.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingCart, User, LogOut, Settings, History } from "lucide-react";
 import Logo from "../assets/picture/Logo.png";
 import Slogan from "../assets/picture/slogan.png";
+
+// Import Context ตามโค้ดของเพื่อน
+import { UserContext } from "../context/userContext/UserContext";
 
 const Navbarmenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const navigate = useNavigate();
 
+  // ดึง Context ของเพื่อนมาใช้งาน
+  const { myUserInfo, logout } = useContext(UserContext);
+
   const [cartCount, setCartCount] = useState(0);
-  const [isLoggedIn, setIsLoggedIn] = useState(
-    localStorage.getItem("isLoggedIn") === "true",
-  );
 
   // Sync cart count from localStorage
   useEffect(() => {
@@ -34,11 +37,20 @@ const Navbarmenu = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("isLoggedIn");
-    setIsLoggedIn(false);
+    // ล้าง localStorage ของตะกร้า และจัดการ Logout ผ่าน Context (ถ้าเพื่อนมีฟังก์ชัน)
+    localStorage.removeItem("isLoggedIn"); // เผื่อเพื่อนใช้
     setIsProfileOpen(false);
+
+    // ถ้าเพื่อนมีฟังก์ชัน logout ใน Context ให้เรียกใช้ด้วย
+    if (logout) {
+      logout();
+    }
+
     navigate("/");
   };
+
+  // เช็คสถานะ Login จาก Context ของเพื่อน แทน LocalStorage แบบเดิม
+  const isLoggedInUser = myUserInfo !== null && myUserInfo !== undefined;
 
   return (
     <header className="bg-primary text-neutral shadow-lg sticky top-0 z-[100]">
@@ -96,7 +108,7 @@ const Navbarmenu = () => {
           </ul>
 
           <div className="flex items-center space-x-4 border-l-2 border-neutral/20 pl-6 ml-2">
-            {/* 🛒 Cart Icon: Link to Menu with cart=open parameter */}
+            {/* Cart Icon */}
             <Link
               to="/menu?cart=open"
               className="relative p-2 hover:text-[#e4002b] transition-colors"
@@ -109,23 +121,24 @@ const Navbarmenu = () => {
               )}
             </Link>
 
-            {/* User Profile / Login Button */}
-            {isLoggedIn ? (
+            {/* User Profile / Login Button (ผสม Logic เพื่อน) */}
+            {isLoggedInUser ? (
               <div className="relative">
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
                   className="flex items-center gap-2 bg-[#242424] text-white px-4 py-2 rounded-full font-['IBM_Plex_Sans_Thai'] text-sm hover:bg-[#e4002b] transition-colors"
                 >
                   <User size={18} />
-                  <span>My Profile</span>
+                  <span>Account</span>
                 </button>
 
-                {/* Profile Dropdown Menu */}
+                {/* Profile Dropdown */}
                 {isProfileOpen && (
                   <div className="absolute right-0 mt-3 w-48 bg-white border-2 border-[#242424] rounded-xl py-2 flex flex-col font-['IBM_Plex_Sans_Thai'] overflow-hidden">
                     <div className="px-4 py-2 border-b-2 border-gray-100 mb-1">
+                      {/* ดึงชื่อจาก Context เพื่อนมาแสดง */}
                       <p className="font-bold text-[#242424] truncate">
-                        Foodie_01
+                        {myUserInfo?.name || "Customer"}
                       </p>
                     </div>
                     <button
@@ -211,15 +224,26 @@ const Navbarmenu = () => {
               ORDER
             </Link>
           </li>
-          {isLoggedIn ? (
-            <li>
-              <button
-                onClick={handleLogout}
-                className="block text-red-500 w-full text-left"
-              >
-                SIGN OUT
-              </button>
-            </li>
+
+          {isLoggedInUser ? (
+            <>
+              <li>
+                <button
+                  onClick={() => alert("Go to profile")}
+                  className="block text-left w-full hover:text-[#e4002b]"
+                >
+                  ACCOUNT
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block text-red-500 w-full text-left"
+                >
+                  SIGN OUT
+                </button>
+              </li>
+            </>
           ) : (
             <li>
               <Link
