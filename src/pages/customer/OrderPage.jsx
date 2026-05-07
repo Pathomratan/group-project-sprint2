@@ -121,7 +121,7 @@ const OrderPage = () => {
   //   const tax = total * 0.07;
   //   const netTotal = total + tax;
 
-  //   // สั่งเปลี่ยนหน้าไปที่ URL ของ Checkout (เช่น /checkout) 
+  //   // สั่งเปลี่ยนหน้าไปที่ URL ของ Checkout (เช่น /checkout)
   //   // พร้อมแนบข้อมูลการจ่ายเงิน (state) ไปด้วย
   //   navigate("/payment", {
   //     state: {
@@ -132,25 +132,25 @@ const OrderPage = () => {
   //     }
   //   });
   const handleCheckout = () => {
-  if (!orderList || orderList.length === 0) {
-    alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
-    return;
-  }
-  
-  const total = calculateTotal();
-  const tax = total * 0.07;
-  const netTotal = total + tax;
-
-  // ส่งข้อมูลตะกร้า (orderData) และราคาไปกับ state
-  navigate("/payment", {
-    state: {
-      subTotal: total,
-      tax: tax,
-      netTotal: netTotal,
-      orderData: orderList 
+    if (!orderList || orderList.length === 0) {
+      alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
+      return;
     }
-  });
-};
+
+    const total = calculateTotal();
+    const tax = total * 0.07;
+    const netTotal = total + tax;
+
+    // ส่งข้อมูลตะกร้า (orderData) และราคาไปกับ state
+    navigate("/payment", {
+      state: {
+        subTotal: total,
+        tax: tax,
+        netTotal: netTotal,
+        orderData: orderList,
+      },
+    });
+  };
 
   return (
     <div className="py-10 bg-gray-50 min-h-screen">
@@ -214,7 +214,6 @@ const OrderPage = () => {
                 onClick={handleCheckout}
                 className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-2xl font-bold text-lg transition-all active:scale-95 shadow-xl"
               >
-  
                 ชำระเงินตอนท้าย
               </button>
 

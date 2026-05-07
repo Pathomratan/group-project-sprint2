@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { HandFist, ShoppingCart, ArrowRight, CheckCircle } from "lucide-react";
-import MenuCard from "../../component/customer/MenuCard"
+import MenuCard from "../../component/customer/MenuCard";
 import CartSidebar from "../../component/customer/CartSidebar";
 import {
-  MENU,
-  PROMOS,
+  menuData,
   AUTOPLAY_INTERVAL_MS,
   TOAST_DURATION_MS,
 } from "../../assets/menuData";
@@ -74,7 +73,6 @@ const MenuPage = () => {
 
   return (
     <div className="min-h-screen bg-[#eeeeee] font-['IBM_Plex_Sans_Thai'] text-[#242424]">
-
       {/* --- MAIN LAYOUT --- */}
       <div className="flex flex-col md:flex-row relative">
         {/* --- PROMO PANEL (ซ้าย) --- */}

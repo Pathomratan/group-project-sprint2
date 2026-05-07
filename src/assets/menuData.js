@@ -3,33 +3,41 @@
 export const AUTOPLAY_INTERVAL_MS = 5000;
 export const TOAST_DURATION_MS = 2500;
 
-export const PROMOS = [
+export const menuData = [
   {
     id: "p1",
     tag: "LIMITED TIME",
     title: "SMILE BUCKET",
     price: "฿199.-",
+    cal: "1200 Cal.",
+    badge: "promo",
     img: "/images/pro-1.png",
   },
   {
-    id: "p2",
+    id: "t1",
     tag: "HOT DROP",
     title: "ZABB TEAM BOX",
     price: "฿149.-",
+    cal: "850 Cal.",
+    badge: "top-sale",
     img: "/images/pro-2.png",
   },
   {
-    id: "p3",
+    id: "t2",
     tag: "SHARING",
     title: "CHICK N' SHARE",
     price: "฿99.-",
+    cal: "850 Cal.",
+    badge: "top-sale",
     img: "/images/pro-3.png",
   },
   {
-    id: "p4",
+    id: "n1",
     tag: "NEW",
     title: "CHICKSKATE",
     price: "฿199.-",
+    cal: "950 Cal.",
+    badge: "new",
     img: "/images/pro-4.png",
   },
 ];
