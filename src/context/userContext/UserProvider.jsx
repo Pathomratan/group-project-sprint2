@@ -4,7 +4,7 @@ import { useState,useEffect } from "react";
 export const UserProvider=({children})=>{
 const [myUserInfo,setMyUserInfo]=useState("");
 useEffect(()=>{
-localStorage.setItem('userInfo',myUserInfo);
+localStorage.setItem('userInfo',JSON.stringify(myUserInfo));
 
 
 setCurrLogin(u);
