@@ -2,9 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbarmenu from "./component/Navbarmenu";
 import CookBoard from "./pages/CookBoard";
-import Index from "./pages/Index";
+import IndexPage from "./pages/customer/IndexPage";
 import Order from "./pages/Order";
-import Buttonmenu from "./component/Buttonmenu";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import CheckoutPage from "./pages/cashier/CheckoutPage";
@@ -18,20 +17,16 @@ export default function App() {
     <Router>
       <Navbarmenu />
       <Routes>
-        <Route path="/" element={<Buttonmenu />} />
-        {/* คุณสามารถเพิ่ม Route อื่นๆ เช่น /menu หรือ /order ได้ที่นี่ */}
+        <Route path="/" element={<IndexPage />} />
         <Route path="/order" element={<Order />} />
-        <Route path="/home" element={<Index />} />
+        <Route path="/home" element={<IndexPage />} />
         <Route path="/menu" element={<MenuPage />} />
-        
-
 
         {/* เพิ่ม Route ของ chasier / shared (with waiter)  */}
         <Route path="/cashier/checkout" element={<CheckoutPage />} />
         <Route path="/shared/tables" element={<TableMap />} />
         <Route path="/cashier/orders" element={<OrderList />} />
         <Route path="/cashier/history" element={<OrderHistory />} />
-        <Route path="/menu" element={<Buttonmenu />} />
         <Route path="/cookBoard" element={<CookBoard />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
@@ -39,3 +34,4 @@ export default function App() {
     </Router>
   );
 }
+

@@ -42,7 +42,7 @@ const OrderItem = ({ item, orderId, onUpdateQty, onRemove }) => {
           onClick={() => onRemove(orderId, item.id)}
           className="text-gray-300 hover:text-red-500 transition-colors p-2"
         >
-          :wastebasket:
+          🗑️
         </button>
       </div>
     </div>
@@ -63,7 +63,7 @@ const OrderPage = () => {
           ...order,
           [key]: order[key].map((item) =>
             item.id === itemId
-              ? { ...item, quantity: Math.max(1, item.quantity + change) }
+              ? { ...item, quantity: Math.max(1, item.quantity + change) } // ห้ามลดต่ำกว่า 1
               : item,
           ),
         };
@@ -102,55 +102,27 @@ const OrderPage = () => {
       );
     }, 0);
   };
-  // 3. สร้างฟังก์ชันสำหรับกดปุ่มชำระเงิน
-  // const handleCheckout = () => {
-  //   // เช็คว่ามีสินค้าในตะกร้าไหมก่อนไปหน้าชำระเงิน
-  //   if (!orderList || orderList.length === 0) {
-  //     alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
-  //     return;
-  //   }
-  // หน้า OrderPage.jsx
-  //   const handleCheckout = () => {
-  //   if (!orderList || orderList.length === 0) {
-  //     alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
-  //     return;
-  //   }
-  //   navigate("/payment"); // สั่งแค่ไปหน้า /payment เฉยๆ พอ
-  // };
-  //   const total = calculateTotal();
-  //   const tax = total * 0.07;
-  //   const netTotal = total + tax;
 
-  //   // สั่งเปลี่ยนหน้าไปที่ URL ของ Checkout (เช่น /checkout) 
-  //   // พร้อมแนบข้อมูลการจ่ายเงิน (state) ไปด้วย
-  //   navigate("/payment", {
-  //     state: {
-  //       subTotal: total,
-  //       tax: tax,
-  //       netTotal: netTotal,
-  //       orderData: orderList // ส่งรายการอาหารไปด้วยเผื่อต้องใช้แสดงผล
-  //     }
-  //   });
   const handleCheckout = () => {
-  if (!orderList || orderList.length === 0) {
-    alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
-    return;
-  }
-  
-  const total = calculateTotal();
-  const tax = total * 0.07;
-  const netTotal = total + tax;
-
-  // ส่งข้อมูลตะกร้า (orderData) และราคาไปกับ state
-  navigate("/payment", {
-    state: {
-      subTotal: total,
-      tax: tax,
-      netTotal: netTotal,
-      orderData: orderList 
+    if (!orderList || orderList.length === 0) {
+      alert("กรุณาเพิ่มสินค้าลงตะกร้าก่อนชำระเงิน");
+      return;
     }
-  });
-};
+
+    const total = calculateTotal();
+    const tax = total * 0.07;
+    const netTotal = total + tax;
+
+    // ส่งข้อมูลตะกร้า (orderData) และราคาไปกับ state
+    navigate("/payment", {
+      state: {
+        subTotal: total,
+        tax: tax,
+        netTotal: netTotal,
+        orderData: orderList,
+      },
+    });
+  };
 
   return (
     <div className="py-10 bg-gray-50 min-h-screen">
@@ -214,7 +186,6 @@ const OrderPage = () => {
                 onClick={handleCheckout}
                 className="w-full bg-gray-900 hover:bg-black text-white py-4 rounded-2xl font-bold text-lg transition-all active:scale-95 shadow-xl"
               >
-  
                 ชำระเงินตอนท้าย
               </button>
 

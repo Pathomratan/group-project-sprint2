@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { OrdersContext } from "../../context/ordersContext/OrdersContext";
 
 // รับ Props 'cartItems' เข้ามา
 export default function CheckoutSteps({ cartItems, updateQty }) {
+  const { orderList, setOrderList } = useContext(OrdersContext);
   const [selectedAddress, setSelectedAddress] = useState("home");
   const [selectedTime, setSelectedTime] = useState("fastest");
   const [paymentMethod, setPaymentMethod] = useState("credit");

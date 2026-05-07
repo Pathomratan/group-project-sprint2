@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { orderDetail as orderData } from '../../assets/orderdriver';
+import { useNavigate, useParams } from 'react-router-dom';
+// ตรวจสอบ Path ให้ตรงกับโครงสร้างโฟลเดอร์ของคุณ (src/component/rider/OrderDetail.jsx)
+import { orders } from '../../assets/order'; 
 
-// --- StageButton Component ---
 const StageButton = ({ active, stage, text, icon }) => (
   <div className={`flex-1 border-2 py-2 px-1 rounded-2xl flex flex-col items-center justify-center text-center shadow-sm transition-all duration-300 ${
     active ? 'border-cyan-400 bg-white scale-105' : 'border-gray-200 bg-gray-50 opacity-60'
@@ -17,7 +18,41 @@ const StageButton = ({ active, stage, text, icon }) => (
 );
 
 const OrderDetail = () => {
-  const [currentStage, setCurrentStage] = useState(orderData?.currentStage || 1);
+  const navigate = useNavigate();
+  const { orderId } = useParams();
+
+  // ดึงข้อมูลออเดอร์จากพารามิเตอร์ URL
+  const currentOrder = orders.find(o => o.id === orderId);
+  const isReadyToDeliver = currentOrder?.orderList?.every(item => item.status === "finished");
+
+  // ป้องกัน App พังถ้าหาข้อมูลไม่เจอ
+  if (!currentOrder) {
+    return (
+      <div className="p-10 text-center font-bold">
+        Order Not Found
+      </div>
+    );
+  }
+
+  if (!isReadyToDeliver) {
+    return (
+      <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl font-sans p-8 text-center">
+        <h1 className="text-2xl font-black uppercase mb-4">Order {currentOrder.id} is not ready</h1>
+        <p className="text-sm text-gray-600 mb-6">ออเดอร์นี้ยังมีสถานะไม่ครบทั้งหมดจึงไม่สามารถเริ่มการจัดส่งได้</p>
+        <button
+          onClick={() => navigate('/driver')}
+          className="px-6 py-3 bg-[#D33131] text-white font-black uppercase rounded-3xl shadow-lg"
+        >
+          กลับหน้ารายการจัดส่ง
+        </button>
+      </div>
+    );
+  }
+
+  // คำนวณราคาทั้งหมดจาก orderList
+  const totalPrice = currentOrder.orderList.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  const [currentStage, setCurrentStage] = useState(1);
   const [showCamera, setShowCamera] = useState(false);
   const [capturedImage, setCapturedImage] = useState(null);
   const [riderNote, setRiderNote] = useState("");
@@ -42,7 +77,9 @@ const OrderDetail = () => {
     canvasRef.current.height = videoRef.current.videoHeight;
     context.drawImage(videoRef.current, 0, 0);
     setCapturedImage(canvasRef.current.toDataURL('image/png'));
-    videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+    if (videoRef.current.srcObject) {
+      videoRef.current.srcObject.getTracks().forEach(track => track.stop());
+    }
     setShowCamera(false);
   };
 
@@ -58,24 +95,30 @@ const OrderDetail = () => {
   return (
     <div className="max-w-md mx-auto bg-white min-h-screen shadow-2xl font-sans pb-10 border-x-4 border-blue-400 relative">
       <div className="py-6 text-center">
-        <h1 className="text-2xl font-black uppercase leading-tight">-ORDER {orderData.orderId}<br/>DETAILS</h1>
+        <h1 className="text-2xl font-black uppercase leading-tight">-ORDER {currentOrder.id}<br/>DETAILS</h1>
       </div>
 
-      {/* --- ส่วน Order Card ที่เปิด Scrollbar กลับมา --- */}
+      {/* --- ส่วน Order Card --- */}
       <div className="mx-4 bg-white border-2 border-gray-200 rounded-[2rem] p-4 shadow-inner mb-4">
         <div className="flex justify-between items-center mb-4 px-2 border-l-4 border-black">
-          <span className="font-black text-lg">ORDER {orderData.orderId}</span>
-          <span className="text-gray-500 font-bold text-xs">{orderData.time}</span>
+          <span className="font-black text-lg">ORDER {currentOrder.id}</span>
+          <span className="text-gray-500 font-bold text-xs">
+            {currentOrder.orderList[0].orderTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+          </span>
         </div>
 
-        {/* กำหนดความสูงตรงนี้เพื่อให้ Scrollbar ทำงาน */}
         <div className="h-[180px] overflow-y-auto pr-2 custom-scrollbar space-y-3">
-          {orderData.items.map((item) => (
+          {currentOrder.orderList.map((item) => (
             <div key={item.id} className="flex bg-white border-2 border-gray-100 rounded-3xl p-3 shadow-sm items-center">
-              <div className="w-14 h-14 bg-gray-200 rounded-2xl flex-shrink-0" />
+              {/* แก้ไขตรงนี้: เปลี่ยนจาก DIV เทาๆ เป็น IMG ของจริง */}
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                className="w-14 h-14 rounded-2xl flex-shrink-0 object-cover bg-gray-100 shadow-sm" 
+              />
               <div className="ml-4 flex-1">
-                <p className="font-black text-xs leading-tight">{item.name}</p>
-                <p className="text-[10px] font-bold text-gray-500">Qty: {item.qty}</p>
+                <p className="font-black text-xs leading-tight">{item.name.replace('_', ' ').toUpperCase()}</p>
+                <p className="text-[10px] font-bold text-gray-500">Qty: {item.quantity}</p>
                 <p className="font-black text-sm">฿{item.price.toLocaleString()}.00</p>
               </div>
             </div>
@@ -83,37 +126,37 @@ const OrderDetail = () => {
         </div>
         
         <div className="text-right pt-3 border-t-2 border-gray-50 mt-2">
-          <span className="text-lg font-black uppercase">Total: ฿{orderData.total.toLocaleString()}.00</span>
+          <span className="text-lg font-black uppercase">Total: ฿{totalPrice.toLocaleString()}.00</span>
         </div>
       </div>
 
-      {/* Customer Info */}
+      {/* ข้อมูลลูกค้า ดึงจาก currentOrder.customer ตรงๆ */}
       <div className="mx-4 bg-white border-2 border-gray-200 rounded-[2.5rem] p-5 shadow-md space-y-2 mb-4 text-[11px]">
-        <p><span className="font-black">👤 Customer:</span> {orderData.customer.name}</p>
-        <p><span className="font-black">📞 Contact:</span> {orderData.customer.contact}</p>
-        <p><span className="font-black">📍 Delivery to:</span> {orderData.customer.address}</p>
+        <p><span className="font-black">👤 Customer:</span> {currentOrder.customer.name}</p>
+        <p><span className="font-black">📞 Contact:</span> {currentOrder.customer.contact}</p>
+        <p><span className="font-black">📍 Delivery to:</span> {currentOrder.customer.address}</p>
       </div>
 
-      {/* Note From Customer */}
+      {/* Note จากลูกค้า */}
       {!capturedImage && (
         <div className="mx-4 bg-white border-2 border-gray-200 rounded-[1.5rem] p-4 shadow-sm mb-4 text-[10px]">
           <p className="font-black italic underline mb-1">🗒️ Note from Customer :</p>
-          <p className="font-bold text-gray-600 ml-4 leading-tight">{orderData.note}</p>
+          <p className="font-bold text-gray-600 ml-4 leading-tight">{currentOrder.customer.note}</p>
         </div>
       )}
 
-      {/* Stages */}
+      {/* ส่วนเลือก Stage การทำงาน */}
       <div className="flex justify-between px-4 mb-4 space-x-2">
         <StageButton active={currentStage === 1} stage="1" text="Ready" icon="📦" />
         <StageButton active={currentStage === 2} stage="2" text="IN Transit" icon="🚚" />
         <StageButton active={currentStage === 3} stage="3" text="Delivered" icon="📍" />
       </div>
 
-      {/* --- ส่วนฟีเจอร์หลังถ่ายรูป (แผนที่ + รูปถ่าย + โน้ตคนขับ) --- */}
+      {/* แสดงแผนที่ปลอมและรูปถ่ายหลังจาก Arrived แล้ว */}
       {currentStage === 2 && capturedImage && (
-        <div className="px-4 space-y-4 animate-fadeIn mb-6">
-          <div className="w-full h-28 bg-blue-50 border-2 border-gray-200 rounded-3xl overflow-hidden relative shadow-inner">
-             <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-[10px] font-bold italic">📍 GOOGLE MAPS PREVIEW</div>
+        <div className="px-4 space-y-4 mb-6">
+          <div className="w-full h-28 bg-blue-50 border-2 border-gray-200 rounded-3xl overflow-hidden relative shadow-inner flex items-center justify-center">
+             <div className="text-gray-400 text-[10px] font-bold italic">📍 GOOGLE MAPS PREVIEW</div>
           </div>
 
           <div className="flex flex-col items-center">
@@ -127,12 +170,12 @@ const OrderDetail = () => {
             placeholder="Note something to customer..."
             value={riderNote}
             onChange={(e) => setRiderNote(e.target.value)}
-            className="w-full bg-gray-50 border-2 border-gray-200 rounded-3xl p-4 text-xs font-bold min-h-[100px] outline-none focus:border-cyan-400"
+            className="w-full bg-gray-50 border-2 border-gray-200 rounded-3xl p-4 text-xs font-bold min-h-[100px] outline-none focus:border-cyan-400 shadow-inner"
           />
         </div>
       )}
 
-      {/* Action Buttons */}
+      {/* ปุ่มกดดำเนินการหลัก */}
       <div className="flex px-4 space-x-2 items-center">
         <button 
           onClick={handleMainButton}
@@ -153,7 +196,7 @@ const OrderDetail = () => {
         </div>
       </div>
 
-      {/* Camera Overlay */}
+      {/* ส่วน Camera Modal (ทับหน้าจอ) */}
       {showCamera && (
         <div className="fixed inset-0 bg-black z-[100] flex flex-col items-center justify-center">
           <video ref={videoRef} autoPlay playsInline className="w-full h-full object-cover" />

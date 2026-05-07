@@ -11,6 +11,4 @@ return(
 
     <UserContext.Provider value={{myUserInfo,setMyUserInfo}}>{children}</UserContext.Provider>
 )
-
-
 }
