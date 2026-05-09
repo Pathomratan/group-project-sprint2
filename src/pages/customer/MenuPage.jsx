@@ -1,9 +1,10 @@
 // src/pages/customer/MenuPage.jsx
-import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react"; // <-- เพิ่ม useContext
+import { NavLink, useNavigate } from "react-router-dom"; // <-- เพิ่ม useNavigate
 import { HandFist, ShoppingCart, ArrowRight, CheckCircle } from "lucide-react";
 import MenuCard from "../../component/customer/MenuCard";
 import CartSidebar from "../../component/customer/CartSidebar";
+import { OrdersContext } from "../../context/ordersContext/OrdersContext"; // <-- Import Context ของตะกร้า
 import {
   menuData,
   MENU,
@@ -13,6 +14,9 @@ import {
 
 const MenuPage = () => {
   const PROMOS = menuData;
+  const navigate = useNavigate(); // <-- ประกาศใช้ navigate เพื่อเปลี่ยนหน้า
+  // เรียกใช้ Context ของตะกร้าเพื่อส่งข้อมูลข้ามหน้า
+  const { orderList, setOrderList } = useContext(OrdersContext);
   // --- States ---
   const [activeTab, setActiveTab] = useState("all");
   const [cart, setCart] = useState(() => {
@@ -37,6 +41,10 @@ const MenuPage = () => {
 
   // --- Functions ---
   const handleAddToCart = (id, name) => {
+    // 1. ดึงข้อมูลเมนูแบบเต็มมาจาก MENU array
+    const fullMenuItem = MENU.find(m => m.id === id);
+
+    // 2. อัปเดตตะกร้า Local (สำหรับ Sidebar ปกติของคุณ)
     setCart((prev) => {
       const existing = prev.find((item) => item.id === id);
       if (existing) {
@@ -47,10 +55,42 @@ const MenuPage = () => {
       return [...prev, { id, qty: 1 }];
     });
 
+    // 3. อัปเดตข้อมูลส่งไปหน้า OrderPage ผ่าน Context 
+    setOrderList((prevOrders) => {
+      // สมมติว่าตะกร้าปัจจุบันคือ Order ก้อนแรก (หรือสร้างใหม่ถ้ายังไม่มี)
+      let currentOrder = prevOrders.length > 0 ? { ...prevOrders[0] } : { orderId: Date.now().toString(), orderList: [] };
+      let listKey = currentOrder.List ? "List" : "orderList";
+      let currentItems = currentOrder[listKey] || [];
+
+      // เช็คว่ามีสินค้านี้ใน Context หรือยัง
+      const existingItemIndex = currentItems.findIndex(item => item.id === id);
+      
+      if (existingItemIndex >= 0) {
+        // ถ้ามีแล้ว เพิ่ม quantity
+        currentItems[existingItemIndex].quantity += 1;
+      } else {
+        // ถ้ายังไม่มี เพิ่ม item ใหม่เข้าไป โดยจัด Format ให้ตรงกับที่ OrderPage ต้องการ
+        currentItems.push({
+          id: id,
+          name: name,
+          price: fullMenuItem ? fullMenuItem.price : 0, // ส่งราคาไปด้วย
+          emoji: fullMenuItem ? fullMenuItem.emoji : "🍗",
+          quantity: 1,
+          note: "None",
+          size: "Regular"
+        });
+      }
+
+      currentOrder[listKey] = currentItems;
+      return [currentOrder]; // อัปเดต Context
+    });
+    
+
     // โชว์ Toast
     setToastMsg(`Added: ${name}`);
     setTimeout(() => setToastMsg(""), TOAST_DURATION_MS);
   };
+
 
   const handleUpdateQty = (id, delta) => {
     setCart((prev) =>
@@ -179,7 +219,8 @@ const MenuPage = () => {
       {/* --- MOBILE CART STICKY BAR --- */}
       <div
         className="md:hidden fixed bottom-0 left-0 right-0 bg-[#242424] p-4 flex justify-between items-center text-white z-40 border-t-4 border-[#e4002b] cursor-pointer"
-        onClick={() => setIsCartOpen(true)}
+        // onClick={() => setIsCartOpen(true)} // <-- เอาของเก่าที่เปิด Sidebar ออก
+        onClick={() => navigate("/order")} // <-- สั่งให้เปลี่ยน URL ไปหน้าตะกร้า (เปลี่ยน path "/order" ตามที่คุณตั้งค่า Route ไว้)
       >
         <div>
           <div className="text-xs opacity-60 uppercase font-bold">
