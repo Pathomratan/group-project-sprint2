@@ -42,7 +42,7 @@ const MenuPage = () => {
   // --- Functions ---
   const handleAddToCart = (id, name) => {
     // 1. ดึงข้อมูลเมนูแบบเต็มมาจาก MENU array
-    const fullMenuItem = MENU.find(m => m.id === id);
+    const fullMenuItem = MENU.find((m) => m.id === id);
 
     // 2. อัปเดตตะกร้า Local (สำหรับ Sidebar ปกติของคุณ)
     setCart((prev) => {
@@ -55,16 +55,21 @@ const MenuPage = () => {
       return [...prev, { id, qty: 1 }];
     });
 
-    // 3. อัปเดตข้อมูลส่งไปหน้า OrderPage ผ่าน Context 
+    // 3. อัปเดตข้อมูลส่งไปหน้า OrderPage ผ่าน Context
     setOrderList((prevOrders) => {
       // สมมติว่าตะกร้าปัจจุบันคือ Order ก้อนแรก (หรือสร้างใหม่ถ้ายังไม่มี)
-      let currentOrder = prevOrders.length > 0 ? { ...prevOrders[0] } : { orderId: Date.now().toString(), orderList: [] };
+      let currentOrder =
+        prevOrders.length > 0
+          ? { ...prevOrders[0] }
+          : { orderId: Date.now().toString(), orderList: [] };
       let listKey = currentOrder.List ? "List" : "orderList";
       let currentItems = currentOrder[listKey] || [];
 
       // เช็คว่ามีสินค้านี้ใน Context หรือยัง
-      const existingItemIndex = currentItems.findIndex(item => item.id === id);
-      
+      const existingItemIndex = currentItems.findIndex(
+        (item) => item.id === id,
+      );
+
       if (existingItemIndex >= 0) {
         // ถ้ามีแล้ว เพิ่ม quantity
         currentItems[existingItemIndex].quantity += 1;
@@ -77,20 +82,19 @@ const MenuPage = () => {
           emoji: fullMenuItem ? fullMenuItem.emoji : "🍗",
           quantity: 1,
           note: "None",
-          size: "Regular"
+          size: "Regular",
         });
       }
 
       currentOrder[listKey] = currentItems;
       return [currentOrder]; // อัปเดต Context
     });
-    
+    navigate("/order");
 
     // โชว์ Toast
     setToastMsg(`Added: ${name}`);
     setTimeout(() => setToastMsg(""), TOAST_DURATION_MS);
   };
-
 
   const handleUpdateQty = (id, delta) => {
     setCart((prev) =>
