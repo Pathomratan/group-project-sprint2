@@ -6,6 +6,7 @@ export default function SummaryInform({
   setOrderState,
   profile,
   setProfile,
+  onConfirm
 }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editProfile, setEditProfile] = useState(profile);
@@ -239,7 +240,7 @@ export default function SummaryInform({
 
           <button
             disabled={!orderState.branch}
-            onClick={() => alert("ไปหน้า Menu...")}
+            onClick={onConfirm}
             className={`px-8 py-3 rounded-full font-bebas text-2xl tracking-widest border-[3px] border-brand-black transition-all duration-300 
             ${!orderState.branch 
               ? "bg-gray-300 text-gray-500 cursor-not-allowed shadow-none" 
