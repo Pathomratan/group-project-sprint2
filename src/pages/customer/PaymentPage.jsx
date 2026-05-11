@@ -26,7 +26,7 @@ export default function PaymentPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           
           {/* ฝั่งซ้าย: ขั้นตอนการจัดส่งและชำระเงิน */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 bg-white rounded-4xl border-[1px]">
             {/* หมายเหตุ: ใน Component CheckoutSteps นี้ 
               อย่าลืมปรับเป็น bg-[#ffffff], โค้ง rounded-[2rem], 
               และอาจจะใส่ขอบ border-[1px] หรือเงาเข้มๆ ตาม Design System ด้วยนะครับ 

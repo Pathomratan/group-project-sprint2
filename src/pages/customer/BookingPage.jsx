@@ -10,7 +10,7 @@ export default function BookingPage() {
     date: new Date().toISOString().split('T')[0],
     time: '13:00-15:00',
     member: '5P',
-    userAddress: '', // เก็บที่อยู่จากตำแหน่งปัจจุบัน
+    userAddress: '', 
   });
 
   const [profile, setProfile] = useState({
@@ -28,7 +28,8 @@ export default function BookingPage() {
   };
 
   return (
-    <div className="bg-brand-white text-brand-black font-sans pb-10 min-h-screen">
+    // เปลี่ยนพื้นหลังเป็น brand-gray (Concrete)
+    <div className="bg-brand-gray text-brand-black font-sans-thai pb-20 min-h-screen">
       <div className="max-w-7xl mx-auto pt-10 px-4 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
         <BranchSelector 
           onSelectBranch={handleSelectBranch} 
