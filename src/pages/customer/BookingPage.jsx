@@ -2,8 +2,22 @@
 import React, { useState } from 'react';
 import BranchSelector from '../../component/customer/BranchSelector';
 import SummaryInform from '../../component/customer/SummaryInform';
+import { useNavigate } from 'react-router-dom';
+
+
 
 export default function BookingPage() {
+  // ภายใน Component ของหน้า BookingPage หรือปุ่มก่อนหน้า
+const navigate = useNavigate();
+
+const goToCheckout = () => {
+  navigate("/checkout", { 
+    state: { 
+      bookingDate: orderState.date, // ส่งตัวแปร Date จากหน้า Booking ไปด้วย
+      // จะแนบที่อยู่ไปด้วยก็ได้ ถ้าให้ BookingPage เป็นคนกำหนด
+    } 
+  });
+};
   const [orderState, setOrderState] = useState({
     type: 'Booking',
     branch: null,

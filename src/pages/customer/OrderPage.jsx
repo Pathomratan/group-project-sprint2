@@ -259,7 +259,7 @@ const OrderPage = () => {
 
               {/* The "Street" Button - Primary CTA */}
               <button 
-                onClick={() => navigate("/payment", { state: { subTotal, tax, netTotal, orderData: orderList } })}
+                onClick={() => navigate("/booking", { state: { subTotal, tax, netTotal, orderData: orderList } })}
                 className="w-full mt-8 py-5 bg-[#e4002b] text-white rounded-4xl font-['Bebas_Neue'] tracking-widest text-2xl uppercase border-2 border-[#242424] shadow-[8px_8px_0_#242424] hover:translate-y-1 hover:shadow-[4px_4px_0_#242424] transition-all duration-300 ease-in-out relative overflow-hidden group"
               >
                 <span className="relative z-10">Order Now</span>
