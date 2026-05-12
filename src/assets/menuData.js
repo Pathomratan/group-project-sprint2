@@ -6,40 +6,6 @@ export const TOAST_DURATION_MS = 2500;
 // 1. หมวดหมู่สำหรับแสดงใน PromoCarousel หน้า Index
 export const CATEGORIES = [
   {
-    id: "p1",
-    tag: "LIMITED TIME",
-    name: "SMILE BUCKET",
-    price: "฿199.-",
-    cal: "1200 Cal.",
-    badge: "promo",
-    image: "/images/pro-1.png",
-  },
-  {
-    id: "t1",
-    tag: "HOT DROP",
-    name: "ZABB TEAM BOX",
-    price: "฿149.-",
-    cal: "850 Cal.",
-    badge: "top-sale",
-    image: "/images/pro-2.png",
-  },
-  {
-    id: "t2",
-    tag: "SHARING",
-    name: "CHICK N' SHARE",
-    price: "฿99.-",
-    cal: "850 Cal.",
-    badge: "top-sale",
-    image: "/images/pro-3.png",
-  },
-  {
-    id: "n1",
-    tag: "NEW",
-    name: "CHICKSKATE",
-    price: "฿199.-",
-    cal: "950 Cal.",
-    badge: "new",
-    image: "/images/pro-4.png",
     id: "pro",
     title: "PROMOTIONS",
     desc: "Deals so good, it's a crime. Grab 'em before they're gone!",
@@ -108,7 +74,6 @@ export const MENU = [
     name: "Signature 8pc Bucket",
     price: 299,
     cat: "bucket",
-    image: "/images/menu-profile-1.png",
     img: "/images/menu-sig8pcbuc.png",
     desc: "Classic Original Recipe chicken.",
     fullDesc:
@@ -121,8 +86,6 @@ export const MENU = [
     name: "Party Pack 20pc",
     price: 555,
     cat: "bucket",
-    image: "/images/menu-profile-2.png",
-    desc: "Extra spicy bucket",
     img: "/images/menu-partypack.png",
     desc: "Extra spicy bucket.",
     fullDesc:
@@ -135,7 +98,6 @@ export const MENU = [
     name: "Zabb Team Box",
     price: 149,
     cat: "bucket",
-    image: "/images/menu-profile-3.png",
     img: "/images/menu-zabbteambox.png",
     desc: "Wingz Zabb + nuggets combo.",
     fullDesc:
@@ -179,8 +141,6 @@ export const MENU = [
     name: "Spicy Chicken Sandwich",
     price: 89,
     cat: "sandwich",
-    image: "/images/menu-profile-4.png",
-    desc: "Crispy, spicy, and juicy",
     img: "/images/menu-spicychicksand.png",
     desc: "Crispy, spicy, and juicy.",
     fullDesc:
@@ -198,8 +158,6 @@ export const MENU = [
     name: "Classic Sandwich",
     price: 69,
     cat: "sandwich",
-    image: "/images/menu-profile-5.png",
-    desc: "Original crispy chicken",
     img: "/images/menu-classsandwich.png",
     desc: "Original crispy chicken.",
     fullDesc:
@@ -212,8 +170,6 @@ export const MENU = [
     name: "Zinger Double",
     price: 199,
     cat: "sandwich",
-    image: "/images/menu-profile-6.png",
-    desc: "Double patty, double flavor",
     img: "/images/menu-zinger.png",
     desc: "Double patty, double flavor.",
     fullDesc:
@@ -251,8 +207,6 @@ export const MENU = [
     name: "Golden Fries (L)",
     price: 49,
     cat: "side",
-    image: "/images/menu-profile-7.png",
-    desc: "Golden crispy fries",
     img: "/images/menu-goldenfries.png",
     desc: "Golden crispy fries.",
     fullDesc:
@@ -265,8 +219,6 @@ export const MENU = [
     name: "Coleslaw",
     price: 39,
     cat: "side",
-    image: "/images/menu-profile-8.png",
-    desc: "Creamy classic slaw",
     img: "/images/menu-coleslaw.png",
     desc: "Creamy classic slaw.",
     fullDesc:
@@ -279,8 +231,6 @@ export const MENU = [
     name: "Mac & Cheese",
     price: 49,
     cat: "side",
-    image: "/images/menu-profile-9.png",
-    desc: "Creamy, cheesey goodness",
     img: "/images/menu-maccheese.png",
     desc: "Creamy, cheesey goodness.",
     fullDesc:
@@ -374,8 +324,6 @@ export const MENU = [
     name: "Chocolate Cupcake",
     price: 45,
     cat: "desserts",
-    image: "/images/menu-profile-10.png",
-    desc: "Rich chocolate treat",
     img: "/images/menu-choccup.png",
     desc: "Rich chocolate treat.",
     fullDesc:
@@ -388,8 +336,6 @@ export const MENU = [
     name: "Soft serve",
     price: 39,
     cat: "desserts",
-    image: "/images/menu-profile-11.png",
-    desc: "Vanilla swirl",
     img: "/images/menu-soft.png",
     desc: "Vanilla swirl.",
     fullDesc:
@@ -453,4 +399,3 @@ export const MENU = [
     allergens: ["Wheat (from Nuruk)"],
   },
 ];
-

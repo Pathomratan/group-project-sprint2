@@ -14,7 +14,7 @@ const MenuCard = ({ item, onAddToCart, onOpenModal }) => {
         {/* ปรับความสูงรูป: มือถือ h-32 (128px), จอใหญ่ h-45 (180px) */}
         <div className="h-32 md:h-45 bg-[#f0f0f0] relative overflow-hidden group flex items-center justify-center">
           <img
-            src={item.image}
+            src={item.img} // ✅ แก้ตรงนี้จาก item.image เป็น item.img
             alt={item.name}
             loading="lazy"
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isSoldOut ? "grayscale opacity-50" : ""}`}
