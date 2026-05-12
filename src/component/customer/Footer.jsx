@@ -82,7 +82,7 @@ export default function Footer() {
               aria-label="Email for newsletter"
             />
             <Link
-              to="/login"
+              to="/register"
               className="bg-[#242424] text-white font-['Bebas_Neue'] px-6 py-3 text-xl tracking-wider border-l-2 border-[#242424] hover:bg-[#e4002b] transition-colors flex items-center justify-center"
             >
               SIGN UP

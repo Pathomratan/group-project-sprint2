@@ -56,7 +56,7 @@ const MenuCard = ({ item, onAddToCart, onOpenModal }) => {
               onAddToCart(item.id, item.name);
             }}
             // ปรับปุ่ม Add ให้เล็กลงในมือถือ จะได้ไม่ล้น
-            className="bg-[#e4002b] text-white px-2 py-1.5 md:px-3 md:py-2 rounded-md font-bold transition-all hover:bg-black hover:scale-105 flex items-center gap-1 text-[10px] md:text-sm"
+            className="bg-transparent border-2 border-[#e4002b] text-[#e4002b] px-2 py-1.5 md:px-3 md:py-2 rounded-md font-bold transition-all hover:bg-[#e4002b] hover:text-white hover:scale-105 flex items-center gap-1 text-[10px] md:text-sm"
             aria-label={`Add ${item.name} to cart`}
           >
             <Plus size={14} className="md:w-4 md:h-4" />{" "}

@@ -2,18 +2,27 @@
 
 import { usersInfo } from "../assets/usersInfo";
 
+console.log("Check Data:", usersInfo);
+
 export const loginAPI = async (username, password) => {
   // จำลองความหน่วงของเน็ต 1 วินาที (1000 ms)
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const user = usersInfo.find(
-        (u) => u.username === username && u.password === password,
-      );
+      try {
+        const user = usersInfo.find(
+          (u) => u.username === username && u.password === password,
+        );
 
-      if (user) {
-        resolve(user); // ถ้าเจอ user ให้ส่งข้อมูลกลับไป
-      } else {
-        reject(new Error("Username and/or Password is not correct.")); // ถ้าไม่เจอให้โยน Error
+        if (user) {
+          console.log("Login Success:", user);
+          resolve(user);
+        } else {
+          reject(new Error("Username หรือ Password ไม่ถูกต้อง"));
+        }
+      } catch (err) {
+        // ป้องกันกรณีตัวแปร usersInfo พังหรือ import พลาด
+        console.error("Auth Service Error:", err);
+        reject(new Error("ระบบตรวจสอบข้อมูลขัดข้อง"));
       }
     }, 1000);
   });

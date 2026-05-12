@@ -177,7 +177,7 @@ export default function OrderStep() {
                   to={step.link}
                   key={step.id}
                   ref={(el) => (cardRefs.current[index] = el)}
-                  className={`flex flex-col bg-white rounded-3xl p-6 md:p-8 shadow-sm w-full max-w-120 transition-all duration-700 cursor-pointer group border-2 border-transparent hover:border-[#242424] hover:shadow-[8px_8px_0_#e4002b] hover:-translate-y-2 ${
+                  className={`flex flex-col bg-white rounded-3xl p-6 md:p-8 shadow-sm w-full max-w-120 transition-all duration-700 cursor-pointer group border-2 border-transparent hover:-translate-y-2 ${
                     activeStep === step.id
                       ? "opacity-100 translate-y-0"
                       : "opacity-30 translate-y-12"
@@ -225,7 +225,7 @@ export default function OrderStep() {
         </div>
       </section>
 
-      {/* --- ส่วน Finale ด้านล่าง ปรับเป็นลายตาราง Grid สบายตาขึ้น --- */}
+      {/* --- ส่วน Finale ด้านล่าง ปรับธีมใหม่ให้ดุดันแบบ SFC --- */}
       <section
         ref={finaleRef}
         className="w-full bg-[#eeeeee] h-[250vh] relative z-50"
@@ -239,32 +239,36 @@ export default function OrderStep() {
               borderRadius: `${(1 - expandProgress) * 40}px`,
             }}
           >
-            {/* 🚨 ลายตาราง Grid โปร่งแสง 🚨 */}
+            {/* 🚧 เปลี่ยนจากลายตารางเป็นลายเส้นเฉียง (Danger Stripes) สไตล์ Street */}
             <div
-              className="absolute inset-0 z-0 opacity-10 pointer-events-none"
+              className="absolute inset-0 z-0 opacity-[0.05] pointer-events-none"
               style={{
-                backgroundImage: `
-                  linear-gradient(to right, #ffffff 1px, transparent 1px),
-                  linear-gradient(to bottom, #ffffff 1px, transparent 1px)
-                `,
-                backgroundSize: "40px 40px",
+                backgroundImage: `repeating-linear-gradient(
+                  -45deg,
+                  #ffffff,
+                  #ffffff 2px,
+                  transparent 2px,
+                  transparent 24px
+                )`,
               }}
             />
 
+            {/* ข้อความก่อนขยาย */}
             <div
               className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 z-10"
               style={{ opacity: Math.max(0, 1 - expandProgress * 2) }}
             >
               <Drumstick
                 size={64}
-                className="text-[#e4002b] animate-bounce"
+                className="text-[#e4002b] animate-bounce drop-shadow-lg"
                 strokeWidth={1.5}
               />
-              <span className="text-[#ffffff] font-['Bebas_Neue'] tracking-widest mt-4 text-3xl animate-pulse">
+              <span className="text-white font-['Bebas_Neue'] tracking-widest mt-4 text-4xl animate-pulse drop-shadow-md">
                 READY TO ORDER ?
               </span>
             </div>
 
+            {/* เนื้อหาหลักตอนขยายเต็มจอ */}
             <div
               className="w-full max-w-5xl mx-auto px-4 flex flex-col items-center transition-all duration-300 z-10"
               style={{
@@ -273,8 +277,8 @@ export default function OrderStep() {
                 transform: `translateY(${(1 - expandProgress) * 30}px)`,
               }}
             >
-              {/* เปลี่ยนสีตัวอักษรนิดหน่อยให้ซอฟต์ลง ไม่อัดตัดกับฉากหลังเกินไป */}
-              <h2 className="text-4xl md:text-6xl font-['Bebas_Neue'] font-black text-gray-100 tracking-widest uppercase mb-16 text-center leading-tight">
+              {/* แก้สีตัวอักษรให้เป็นสีขาว และไฮไลท์สีแดง เพื่อให้อ่านง่ายบนพื้นดำ */}
+              <h2 className="text-5xl md:text-7xl font-['Bebas_Neue'] font-black text-white tracking-widest uppercase mb-16 text-center leading-[0.9] drop-shadow-lg">
                 NO MATTER HOW YOU FIGHT. <br />
                 <span className="text-[#e4002b]">WE DELIVER THE CRUNCH.</span>
               </h2>
@@ -283,30 +287,37 @@ export default function OrderStep() {
                 {finalePromises.map((item, idx) => (
                   <div
                     key={idx}
-                    className="relative bg-[#1c1c1c] border border-white/5 rounded-[20px] p-8 flex flex-col items-center text-center overflow-hidden group shadow-lg"
+                    // ปรับการ์ดให้เป็นสไตล์ Brutalist (พื้นขาว, ขอบหนา, เงาแดง)
+                    className="relative bg-white border-4 border-[#242424] rounded-2xl p-8 flex flex-col items-center text-center overflow-hidden group hover:-translate-y-2 hover:shadow-[12px_12px_0_#e4002b] transition-all duration-300"
                   >
                     {item.bgImage && (
-                      <div
-                        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 transition-opacity duration-500"
-                        style={{ backgroundImage: `url('${item.bgImage}')` }}
-                      ></div>
+                      <>
+                        <div
+                          className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat transition-transform duration-700"
+                          style={{ backgroundImage: `url('${item.bgImage}')` }}
+                        ></div>
+
+                        <div className="absolute inset-0 bg-black/50 z-0"></div>
+                      </>
                     )}
 
                     <div className="relative z-10 flex flex-col items-center w-full">
                       {item.icon ? (
-                        <div className="w-16 h-16 mb-6 rounded-full border-2 border-[#e4002b] text-[#e4002b] bg-[#242424] flex items-center justify-center group-hover:bg-[#e4002b] group-hover:text-white transition-colors duration-300">
-                          <item.icon size={28} strokeWidth={2.5} />
+                        <div className="w-16 h-16 mb-6 rounded-full border-4 border-[#242424] text-white bg-[#242424] flex items-center justify-center group-hover:bg-[#e4002b] transition-colors duration-300 shadow-[4px_4px_0_#242424]">
+                          <item.icon size={32} strokeWidth={2.5} />
                         </div>
                       ) : (
                         <div className="h-22 w-full"></div>
                       )}
 
-                      <h3 className="text-3xl font-['Bebas_Neue'] text-white mb-2">
+                      <h3
+                        className={`text-3xl font-['Bebas_Neue'] mb-2 tracking-wide ${item.bgImage ? "text-white drop-shadow-md" : "text-[#242424]"}`}
+                      >
                         {item.title}
                       </h3>
-                      {/* ถ้ามีการ์ดที่มี bgImage (ใบกลาง) ให้ดรอปชาโดว์ตัวหนังสือหน่อย จะได้อ่านออก */}
+
                       <p
-                        className={`font-['IBM_Plex_Sans_Thai'] ${item.bgImage ? "text-white font-bold drop-shadow-md" : "text-gray-400"}`}
+                        className={`font-['IBM_Plex_Sans_Thai'] font-bold leading-snug ${item.bgImage ? "text-gray-100 drop-shadow-md" : "text-gray-600"}`}
                       >
                         {item.desc}
                       </p>
@@ -315,14 +326,15 @@ export default function OrderStep() {
                 ))}
               </div>
 
+              {/* ปรับปุ่มให้สว่างขึ้นเพื่อดึงดูดสายตา */}
               <Link
                 to="/menu"
-                className="bg-[#e4002b] text-white font-['Bebas_Neue'] text-2xl md:text-3xl tracking-widest py-4 md:py-5 px-16 shadow-[8px_8px_0_#111111] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0_#111111] transition-all rounded-none border-2 border-[#e4002b] group relative overflow-hidden"
+                className="bg-white text-[#242424] font-['Bebas_Neue'] text-3xl tracking-widest py-4 md:py-5 px-16 rounded-xl border-4 border-[#242424] shadow-[8px_8px_0_#e4002b] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0_#e4002b] transition-all group relative overflow-hidden"
               >
-                <span className="relative z-10 group-hover:text-[#242424] transition-colors duration-300">
+                <span className="relative z-10 group-hover:text-white transition-colors duration-300">
                   START YOUR ORDER
                 </span>
-                <div className="absolute inset-0 w-0 bg-white group-hover:w-full transition-all duration-300 ease-out z-0"></div>
+                <div className="absolute inset-0 w-0 bg-[#e4002b] group-hover:w-full transition-all duration-300 ease-out z-0"></div>
               </Link>
             </div>
           </div>
