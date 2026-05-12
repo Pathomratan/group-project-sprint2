@@ -1,5 +1,6 @@
 // src/component/customer/OrderStep.jsx
 import React, { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import {
   Bike,
   Store,
@@ -8,6 +9,7 @@ import {
   Clock,
   Flame,
   Drumstick,
+  ArrowRight,
 } from "lucide-react";
 
 export default function OrderStep() {
@@ -22,6 +24,8 @@ export default function OrderStep() {
       title: "DELIVERY",
       icon: Bike,
       image: "/images/step-delivery.png",
+      link: "/order",
+      ctaText: "Click to start delivery order",
       desc: [
         "ส่งไว ทันใจวัยรุ่นหิว",
         "ครอบคลุมกรุงเทพฯ และปริมณฑล",
@@ -34,6 +38,8 @@ export default function OrderStep() {
       title: "PICK UP STORE",
       icon: Store,
       image: "/images/step-pickup.png",
+      link: "/order?type=pickup",
+      ctaText: "Click to start pick-up order",
       desc: [
         "สั่งล่วงหน้าผ่านเว็บ",
         "แวะโฉบมารับที่หน้าร้าน",
@@ -46,6 +52,8 @@ export default function OrderStep() {
       title: "DINE-IN",
       icon: Utensils,
       image: "/images/step-dinein.png",
+      link: "/menu",
+      ctaText: "Click to make a reservation",
       desc: [
         "แวะมานั่งชิลที่ร้าน",
         "เสพ Vibe สตรีทคัลเจอร์",
@@ -55,7 +63,6 @@ export default function OrderStep() {
     },
   ];
 
-  // แก้ไขตรงนี้: ANYWHERE เอา icon MapPin ออก แล้วแทนด้วย bgImage
   const finalePromises = [
     { title: "ANYTIME", icon: Clock, desc: "หิวเมื่อไหร่ จัดได้ทันที" },
     {
@@ -166,16 +173,17 @@ export default function OrderStep() {
 
             <div className="md:w-2/3 flex flex-col gap-16 md:gap-20 w-full items-center md:items-start pb-[10vh]">
               {steps.map((step, index) => (
-                <div
+                <Link
+                  to={step.link}
                   key={step.id}
                   ref={(el) => (cardRefs.current[index] = el)}
-                  className={`flex flex-col bg-white rounded-3xl p-6 md:p-8 shadow-sm border w-full max-w-120 transition-all duration-700 ${
+                  className={`flex flex-col bg-white rounded-3xl p-6 md:p-8 shadow-sm w-full max-w-120 transition-all duration-700 cursor-pointer group border-2 border-transparent hover:border-[#242424] hover:shadow-[8px_8px_0_#e4002b] hover:-translate-y-2 ${
                     activeStep === step.id
                       ? "opacity-100 translate-y-0"
                       : "opacity-30 translate-y-12"
                   }`}
                 >
-                  <div className="w-full h-45 md:h-50 relative mb-8 flex justify-center items-end">
+                  <div className="w-full h-45 md:h-50 relative mb-8 flex justify-center items-end group-hover:scale-105 transition-transform duration-500">
                     <img
                       src={step.image}
                       alt={step.title}
@@ -185,10 +193,17 @@ export default function OrderStep() {
                       }}
                     />
                   </div>
-                  <h3 className="text-3xl font-['Bebas_Neue'] text-[#242424] mb-4">
-                    {step.title}
-                  </h3>
-                  <ul className="flex flex-col gap-3 font-['IBM_Plex_Sans_Thai'] text-gray-600">
+
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-3xl font-['Bebas_Neue'] text-[#242424]">
+                      {step.title}
+                    </h3>
+                    <span className="text-[#e4002b] opacity-0 group-hover:opacity-100 transform -translate-x-4 group-hover:translate-x-0 transition-all duration-300">
+                      <ArrowRight size={28} />
+                    </span>
+                  </div>
+
+                  <ul className="flex flex-col gap-3 font-['IBM_Plex_Sans_Thai'] text-gray-600 mb-4">
                     {step.desc.map((line, i) => (
                       <li key={i} className="flex items-center gap-3">
                         <CheckCircle2
@@ -199,28 +214,45 @@ export default function OrderStep() {
                       </li>
                     ))}
                   </ul>
-                </div>
+
+                  <div className="mt-auto pt-4 border-t border-gray-100 font-bold text-sm text-gray-400 group-hover:text-[#242424] transition-colors uppercase tracking-wider">
+                    {step.ctaText}
+                  </div>
+                </Link>
               ))}
             </div>
           </div>
         </div>
       </section>
 
+      {/* --- ส่วน Finale ด้านล่าง ปรับเป็นลายตาราง Grid สบายตาขึ้น --- */}
       <section
         ref={finaleRef}
         className="w-full bg-[#eeeeee] h-[250vh] relative z-50"
       >
         <div className="sticky top-0 w-full h-screen flex items-center justify-center overflow-hidden">
           <div
-            className="bg-[#242424] flex flex-col items-center justify-center relative shadow-2xl"
+            className="bg-[#242424] flex flex-col items-center justify-center relative shadow-2xl overflow-hidden"
             style={{
               width: `${80 + expandProgress * 20}%`,
               height: `${60 + expandProgress * 40}vh`,
               borderRadius: `${(1 - expandProgress) * 40}px`,
             }}
           >
+            {/* 🚨 ลายตาราง Grid โปร่งแสง 🚨 */}
             <div
-              className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300"
+              className="absolute inset-0 z-0 opacity-10 pointer-events-none"
+              style={{
+                backgroundImage: `
+                  linear-gradient(to right, #ffffff 1px, transparent 1px),
+                  linear-gradient(to bottom, #ffffff 1px, transparent 1px)
+                `,
+                backgroundSize: "40px 40px",
+              }}
+            />
+
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none transition-opacity duration-300 z-10"
               style={{ opacity: Math.max(0, 1 - expandProgress * 2) }}
             >
               <Drumstick
@@ -234,14 +266,15 @@ export default function OrderStep() {
             </div>
 
             <div
-              className="w-full max-w-5xl mx-auto px-4 flex flex-col items-center transition-all duration-300"
+              className="w-full max-w-5xl mx-auto px-4 flex flex-col items-center transition-all duration-300 z-10"
               style={{
                 opacity:
                   expandProgress > 0.6 ? (expandProgress - 0.6) * 2.5 : 0,
                 transform: `translateY(${(1 - expandProgress) * 30}px)`,
               }}
             >
-              <h2 className="text-4xl md:text-6xl font-['Bebas_Neue'] font-black text-white tracking-widest uppercase mb-16 text-center leading-tight">
+              {/* เปลี่ยนสีตัวอักษรนิดหน่อยให้ซอฟต์ลง ไม่อัดตัดกับฉากหลังเกินไป */}
+              <h2 className="text-4xl md:text-6xl font-['Bebas_Neue'] font-black text-gray-100 tracking-widest uppercase mb-16 text-center leading-tight">
                 NO MATTER HOW YOU FIGHT. <br />
                 <span className="text-[#e4002b]">WE DELIVER THE CRUNCH.</span>
               </h2>
@@ -250,31 +283,31 @@ export default function OrderStep() {
                 {finalePromises.map((item, idx) => (
                   <div
                     key={idx}
-                    className="relative bg-white/5 border border-white/10 rounded-[20px] p-8 flex flex-col items-center text-center overflow-hidden group"
+                    className="relative bg-[#1c1c1c] border border-white/5 rounded-[20px] p-8 flex flex-col items-center text-center overflow-hidden group shadow-lg"
                   >
-                    {/* 🚨 พื้นหลังการ์ด: จะแสดงก็ต่อเมื่อมี item.bgImage (เช่นการ์ด ANYWHERE) */}
                     {item.bgImage && (
                       <div
-                        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-70 transition-opacity duration-500"
+                        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat opacity-90 transition-opacity duration-500"
                         style={{ backgroundImage: `url('${item.bgImage}')` }}
                       ></div>
                     )}
 
                     <div className="relative z-10 flex flex-col items-center w-full">
-                      {/* 🚨 ลบเงา shadow-... เรืองแสงออก กลายเป็นสี Flat 2D */}
                       {item.icon ? (
-                        <div className="w-20 h-20 mb-6 rounded-full bg-[#e4002b] flex items-center justify-center text-white">
-                          <item.icon size={36} strokeWidth={2.5} />
+                        <div className="w-16 h-16 mb-6 rounded-full border-2 border-[#e4002b] text-[#e4002b] bg-[#242424] flex items-center justify-center group-hover:bg-[#e4002b] group-hover:text-white transition-colors duration-300">
+                          <item.icon size={28} strokeWidth={2.5} />
                         </div>
                       ) : (
-                        /* ดันพื้นที่เปล่าๆ ไว้สำหรับ ANYWHERE เพื่อให้ระดับตัวหนังสือเท่ากับการ์ดอื่น */
-                        <div className="h-26 w-full"></div>
+                        <div className="h-22 w-full"></div>
                       )}
 
                       <h3 className="text-3xl font-['Bebas_Neue'] text-white mb-2">
                         {item.title}
                       </h3>
-                      <p className="font-['IBM_Plex_Sans_Thai'] text-gray-300">
+                      {/* ถ้ามีการ์ดที่มี bgImage (ใบกลาง) ให้ดรอปชาโดว์ตัวหนังสือหน่อย จะได้อ่านออก */}
+                      <p
+                        className={`font-['IBM_Plex_Sans_Thai'] ${item.bgImage ? "text-white font-bold drop-shadow-md" : "text-gray-400"}`}
+                      >
                         {item.desc}
                       </p>
                     </div>
@@ -282,12 +315,15 @@ export default function OrderStep() {
                 ))}
               </div>
 
-              <button className="bg-white text-[#242424] font-['Bebas_Neue'] text-2xl md:text-3xl tracking-widest py-4 md:py-5 px-16 shadow-[8px_8px_0_#e4002b] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0_#e4002b] transition-all rounded-none border-2 border-white group relative overflow-hidden">
-                <span className="relative z-10 group-hover:text-white transition-colors duration-300">
+              <Link
+                to="/menu"
+                className="bg-[#e4002b] text-white font-['Bebas_Neue'] text-2xl md:text-3xl tracking-widest py-4 md:py-5 px-16 shadow-[8px_8px_0_#111111] hover:translate-y-1 hover:translate-x-1 hover:shadow-[4px_4px_0_#111111] transition-all rounded-none border-2 border-[#e4002b] group relative overflow-hidden"
+              >
+                <span className="relative z-10 group-hover:text-[#242424] transition-colors duration-300">
                   START YOUR ORDER
                 </span>
-                <div className="absolute inset-0 w-0 bg-[#e4002b] group-hover:w-full transition-all duration-300 ease-out z-0"></div>
-              </button>
+                <div className="absolute inset-0 w-0 bg-white group-hover:w-full transition-all duration-300 ease-out z-0"></div>
+              </Link>
             </div>
           </div>
         </div>

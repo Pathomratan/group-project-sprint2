@@ -11,6 +11,7 @@ import TableMap from "./pages/shared/TableMap";
 import OrderList from "./pages/cashier/OrderList";
 import OrderHistory from "./pages/cashier/OrderHistory";
 import MenuPage from "./pages/customer/MenuPage";
+import OrderTrackingPage from "./pages/customer/OrderTrackingPage";
 
 export default function App() {
   return (
@@ -30,8 +31,8 @@ export default function App() {
         <Route path="/cookBoard" element={<CookBoard />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/register" element={<Register />}></Route>
+        <Route path="/order-tracking" element={<OrderTrackingPage />} />
       </Routes>
     </Router>
   );
 }
-
