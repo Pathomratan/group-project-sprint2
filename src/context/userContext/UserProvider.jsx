@@ -1,23 +1,7 @@
-import { UserContext } from "./UserContext";
+// คอยจำว่า "ตอนนี้ใคร Login อยู่" โดยดึงข้อมูลจาก localStorage
+
 import { useState, useEffect } from "react";
-
-export const UserProvider=({children})=>{
-const [myUserInfo,setMyUserInfo]=useState(JSON.parse( localStorage.getItem('userInfo')));
-// const [myUserInfo,setMyUserInfo]=useState();
-useEffect(()=>{
-    console.log(localStorage.getItem('uerInfo'))
-localStorage.setItem('userInfo',JSON.stringify(myUserInfo));
-},[myUserInfo])
-return(
-/*
-ขออนุญาตแก้โค้ดตรงไฟล์ UserProvider.jsx คับ
-พอดีตอนรันเทสบนเบราว์เซอร์ที่ยังไม่เคย Login พอมันเปิดหน้าเว็บมามันติด Error จอขาว 
-(Uncaught SyntaxError: Unexpected end of JSON input)
-
-สาเหตุคือตอนที่ useState พยายามดึง localStorage.getItem('userInfo') 
-มาทำ JSON.parse แบบตรงๆ ทันที ถ้าเป็น User ใหม่ที่ยังไม่มีข้อมูลในเครื่อง 
-มันจะดึงค่าเป็น null มา แล้วพอยัดเข้า JSON.parse มันเลยทำให้แอป Crash
-*/
+import { UserContext } from "./UserContext";
 
 export const UserProvider = ({ children }) => {
   // Added safe parsing (try-catch) and null check.

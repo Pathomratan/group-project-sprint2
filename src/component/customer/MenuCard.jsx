@@ -14,7 +14,7 @@ const MenuCard = ({ item, onAddToCart, onOpenModal }) => {
         {/* ปรับความสูงรูป: มือถือ h-32 (128px), จอใหญ่ h-45 (180px) */}
         <div className="h-32 md:h-45 bg-[#f0f0f0] relative overflow-hidden group flex items-center justify-center">
           <img
-            src={item.image}
+            src={item.img} // ✅ แก้ตรงนี้จาก item.image เป็น item.img
             alt={item.name}
             loading="lazy"
             className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${isSoldOut ? "grayscale opacity-50" : ""}`}
@@ -56,7 +56,7 @@ const MenuCard = ({ item, onAddToCart, onOpenModal }) => {
               onAddToCart(item.id, item.name);
             }}
             // ปรับปุ่ม Add ให้เล็กลงในมือถือ จะได้ไม่ล้น
-            className="bg-[#e4002b] text-white px-2 py-1.5 md:px-3 md:py-2 rounded-md font-bold transition-all hover:bg-black hover:scale-105 flex items-center gap-1 text-[10px] md:text-sm"
+            className="bg-transparent border-2 border-[#e4002b] text-[#e4002b] px-2 py-1.5 md:px-3 md:py-2 rounded-md font-bold transition-all hover:bg-[#e4002b] hover:text-white hover:scale-105 flex items-center gap-1 text-[10px] md:text-sm"
             aria-label={`Add ${item.name} to cart`}
           >
             <Plus size={14} className="md:w-4 md:h-4" />{" "}

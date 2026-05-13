@@ -1,7 +1,14 @@
 // src/component/Navbarmenu.jsx
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ShoppingCart, User, LogOut, Settings, History } from "lucide-react";
+import {
+  ShoppingCart,
+  User,
+  LogOut,
+  Settings,
+  History,
+  LayoutDashboard,
+} from "lucide-react";
 import Logo from "../assets/picture/Logo.png";
 import Slogan from "../assets/picture/slogan.png";
 
@@ -14,7 +21,7 @@ const Navbarmenu = () => {
   const navigate = useNavigate();
 
   // ดึง Context ของเพื่อนมาใช้งาน
-  const { myUserInfo, logout } = useContext(UserContext);
+  const { myUserInfo, setMyUserInfo } = useContext(UserContext);
 
   const [cartCount, setCartCount] = useState(0);
 
@@ -37,20 +44,47 @@ const Navbarmenu = () => {
   }, []);
 
   const handleLogout = () => {
-    // ล้าง localStorage ของตะกร้า และจัดการ Logout ผ่าน Context (ถ้าเพื่อนมีฟังก์ชัน)
-    localStorage.removeItem("isLoggedIn"); // เผื่อเพื่อนใช้
+    // 1. ล้างข้อมูลใน Context (จะทำให้ useEffect ใน Provider ล้าง localStorage ให้อัตโนมัติ)
+    setMyUserInfo(null);
+
+    // 2. ปิด UI ต่างๆ
     setIsProfileOpen(false);
+    setIsMenuOpen(false);
 
-    // ถ้าเพื่อนมีฟังก์ชัน logout ใน Context ให้เรียกใช้ด้วย
-    if (logout) {
-      logout();
-    }
-
+    // 3. กลับไปหน้าแรก
     navigate("/");
   };
 
-  // เช็คสถานะ Login จาก Context ของเพื่อน แทน LocalStorage แบบเดิม
-  const isLoggedInUser = myUserInfo !== null && myUserInfo !== undefined;
+  // ฟังก์ชันช่วยส่งไปหน้า Dashboard ตาม Role
+  const goToDashboard = () => {
+    setIsProfileOpen(false);
+    if (myUserInfo?.role === "cook") navigate("/cookBoard");
+    else if (myUserInfo?.role === "cashier") navigate("/cashier/orders");
+    else if (myUserInfo?.role === "rider") navigate("/rider-dashboard");
+    else navigate("/menu"); // ลูกค้าไปหน้าเมนู
+  };
+
+  const isLoggedInUser = !!myUserInfo;
+
+  // function คลิกพื้นที่ว่างปิด deopdown profile ได้
+  const profileRef = useRef(null);
+  // 1. ดักจับการคลิกเม้าส์บนหน้าจอ
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      // 2. ถ้าคลิกนอกกล่อง profileRef ให้ปิด Dropdown
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    };
+
+    // 3. Event Listener ให้รอฟังการคลิก
+    document.addEventListener("mousedown", handleClickOutside);
+
+    // 4. คลีนอัพเมื่อออกจากหน้าเว็บ เพื่อไม่ให้กินเครื่อง
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="bg-primary text-neutral shadow-lg sticky top-0 z-100">
@@ -123,10 +157,10 @@ const Navbarmenu = () => {
 
             {/* User Profile / Login Button (ผสม Logic เพื่อน) */}
             {isLoggedInUser ? (
-              <div className="relative">
+              <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setIsProfileOpen(!isProfileOpen)}
-                  className="flex items-center gap-2 bg-[#242424] text-white px-4 py-2 rounded-full font-['IBM_Plex_Sans_Thai'] text-sm hover:bg-[#e4002b] transition-colors"
+                  className="flex items-center gap-2 bg-[#242424] text-white px-4 py-2 rounded-full font-['IBM_Plex_Sans_Thai'] text-sm hover:bg-[#e4002b] cursor-pointer transition-colors"
                 >
                   <User size={18} />
                   <span>My Profile</span>
@@ -134,25 +168,49 @@ const Navbarmenu = () => {
 
                 {/* Profile Dropdown */}
                 {isProfileOpen && (
-                  <div className="absolute right-0 mt-3 w-48 bg-white border-2 border-[#242424] rounded-xl py-2 flex flex-col font-['IBM_Plex_Sans_Thai'] overflow-hidden">
+                  <div className="absolute right-0 mt-3 w-52 bg-white border-2 border-[#242424] rounded-xl py-2 flex flex-col font-['IBM_Plex_Sans_Thai'] overflow-hidden animate-in fade-in zoom-in duration-200">
                     <div className="px-4 py-2 border-b-2 border-gray-100 mb-1">
-                      {/* ดึงชื่อจาก Context เพื่อนมาแสดง */}
-                      <p className="font-bold text-[#242424] truncate">
-                        {myUserInfo?.name || "Customer"}
+                      <p className="text-[10px] text-gray-400 uppercase font-black">
+                        Logged in as
+                      </p>
+                      {myUserInfo?.role !== "customer" && (
+                        <p className="font-bold text-[#e4002b] truncate">
+                          {myUserInfo?.role?.toUpperCase()}
+                        </p>
+                      )}
+                      <p className="text-m font-bold text-[#242424] truncate">
+                        {myUserInfo?.name}
                       </p>
                     </div>
+
+                    {/* ปุ่ม Dashboard สำหรับพนักงาน */}
+                    {myUserInfo?.role !== "customer" && (
+                      <button
+                        onClick={goToDashboard}
+                        className="flex items-center gap-2 px-4 py-2 text-left hover:bg-gray-100 text-[#242424] font-bold"
+                      >
+                        <LayoutDashboard size={16} className="text-[#e4002b]" />{" "}
+                        Dashboard
+                      </button>
+                    )}
+
+                    {/* ปุ่ม Edit Info ( */}
                     <button
-                      onClick={() => alert("Future Feature: Edit Profile")}
+                      onClick={() => alert("Future Feature")}
                       className="flex items-center gap-2 px-4 py-2 text-left hover:bg-gray-100 text-[#242424]"
                     >
                       <Settings size={16} /> Edit Info
                     </button>
+
+                    {/* ปุ่ม Order History */}
                     <button
                       onClick={() => alert("Future Feature: Order History")}
                       className="flex items-center gap-2 px-4 py-2 text-left hover:bg-gray-100 text-[#242424]"
                     >
                       <History size={16} /> Order History
                     </button>
+
+                    {/* ปุ่ม Sign Out (ให้อยู่ล่างสุด มีเส้นคั่นด้านบน) */}
                     <button
                       onClick={handleLogout}
                       className="flex items-center gap-2 px-4 py-2 text-left hover:bg-[#e4002b] hover:text-white text-red-600 font-bold border-t-2 border-gray-100 mt-1"

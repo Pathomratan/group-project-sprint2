@@ -1,7 +1,9 @@
 // src/component/customer/CartSidebar.jsx
-import React from "react";
+
+import React, { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext/UserContext";
 import { X, Minus, Plus, ShoppingBag, MapPin, AlertCircle } from "lucide-react";
-import { useNavigate } from "react-router-dom"; // 🚨 นำเข้า useNavigate เพื่อเปลี่ยนหน้า
+import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate เพื่อเปลี่ยนหน้า
 import { MENU } from "../../assets/menuData";
 
 export default function CartSidebar({
@@ -9,11 +11,14 @@ export default function CartSidebar({
   onClose,
   cartItems,
   onUpdateQty,
+  onOpenLoginModal, // เพื่อรับฟังก์ชันมาจาก MenuPage
 }) {
   const navigate = useNavigate();
 
-  // เช็คสถานะต่างๆ จาก localStorage
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+  // เรียกใช้ข้อมูล User จาก Context แทนการดึง localStorage เอง
+  const { myUserInfo } = useContext(UserContext);
+  const isLoggedIn = !!myUserInfo; // ถ้ามีข้อมูล User แปลว่า Login แล้ว
+
   const selectedBranch = localStorage.getItem("selectedBranch");
 
   // ถ้าตะกร้าไม่ได้เปิดอยู่ ก็ไม่ต้องเรนเดอร์อะไร
@@ -31,12 +36,11 @@ export default function CartSidebar({
   // ฟังก์ชันจัดการตอนกดปุ่ม Checkout
   const handleCheckoutClick = () => {
     if (!isLoggedIn) {
-      // ถ้ายังไม่ login -> ปิดตะกร้า แล้วพาไปหน้า login
-      onClose();
-      navigate("/login");
+      onOpenLoginModal();
     } else {
       // ถ้า login แล้ว -> (ในอนาคตจะพาไปหน้าชำระเงิน หรือสรุปออเดอร์)
-      alert("ขอบคุณที่อุดหนุนครับ! ระบบชำระเงินจะมาในเฟสถัดไป 🍗");
+      onClose();
+      navigate("/order");
     }
   };
 
@@ -65,7 +69,7 @@ export default function CartSidebar({
             </button>
           </div>
 
-          {/* 🚨 ย้ำเตือนสาขาที่เลือก */}
+          {/* ย้ำเตือนสาขาที่เลือก */}
           {selectedBranch && (
             <div className="flex items-center gap-1 text-sm font-bold text-gray-300">
               <MapPin size={14} className="text-[#e4002b]" />
@@ -94,7 +98,7 @@ export default function CartSidebar({
               return (
                 <div
                   key={cartItem.id}
-                  className="flex gap-4 bg-white p-4 rounded-2xl border-2 border-[#242424] shadow-[4px_4px_0_#242424]"
+                  className="flex gap-4 bg-white p-4 rounded-2xl border-2 border-[#242424]"
                 >
                   {/* รูปสินค้า (เล็กๆ) */}
                   <img
@@ -150,7 +154,7 @@ export default function CartSidebar({
               </span>
             </div>
 
-            {/* 🚨 ปุ่ม Checkout (เช็คสถานะ Login) */}
+            {/* ปุ่ม Checkout (เช็คสถานะ Login) */}
             {isLoggedIn ? (
               <button
                 onClick={handleCheckoutClick}

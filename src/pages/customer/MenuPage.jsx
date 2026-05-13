@@ -1,12 +1,17 @@
 // src/pages/customer/MenuPage.jsx
-import React, { useState, useEffect, useContext } from "react"; // <-- เพิ่ม useContext
-import { NavLink, useNavigate } from "react-router-dom"; // <-- เพิ่ม useNavigate
-import { HandFist, ShoppingCart, ArrowRight, CheckCircle } from "lucide-react";
+import React, { useState, useEffect, useContext } from "react";
+import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import {
+  HandFist,
+  ShoppingCart,
+  ArrowRight,
+  CheckCircle,
+  MapPin,
+} from "lucide-react";
 import MenuCard from "../../component/customer/MenuCard";
 import CartSidebar from "../../component/customer/CartSidebar";
-import { OrdersContext } from "../../context/ordersContext/OrdersContext"; // <-- Import Context ของตะกร้า
-import { useSearchParams } from "react-router-dom";
-import { ArrowRight, CheckCircle, MapPin } from "lucide-react";
+import LoginModal from "../../component/LoginModal"; // ✅ นำเข้า LoginModal
+import { OrdersContext } from "../../context/ordersContext/OrdersContext";
 import ProductModal from "../../component/customer/ProductModal";
 import {
   PROMOTIONS,
@@ -16,10 +21,10 @@ import {
 } from "../../assets/menuData";
 
 const MenuPage = () => {
-  const PROMOS = menuData;
-  const navigate = useNavigate(); // <-- ประกาศใช้ navigate เพื่อเปลี่ยนหน้า
-  // เรียกใช้ Context ของตะกร้าเพื่อส่งข้อมูลข้ามหน้า
+  const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const { orderList, setOrderList } = useContext(OrdersContext);
+
   // --- States ---
   const [activeTab, setActiveTab] = useState("all");
   const [cart, setCart] = useState(() => {
@@ -27,16 +32,18 @@ const MenuPage = () => {
     return savedCart ? JSON.parse(savedCart) : [];
   });
 
-  // อ่าน URL ว่าสั่งเปิดตะกร้ามาไหม (?cart=open)
   const [isCartOpen, setIsCartOpen] = useState(
     searchParams.get("cart") === "open",
   );
+
+  // ✅ เพิ่ม State สำหรับควบคุมการเปิด/ปิด Login Modal
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
   const [toastMsg, setToastMsg] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
-
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // Modal สาขา ไม่เด้งขัดจังหวะตอนเริ่ม
+  // Modal สาขา
   const [selectedBranch, setSelectedBranch] = useState(() =>
     localStorage.getItem("selectedBranch"),
   );
@@ -48,7 +55,6 @@ const MenuPage = () => {
     const currentTab = searchParams.get("tab");
     if (currentTab) setActiveTab(currentTab);
 
-    // ถ้า URL สั่งเปิดตะกร้า ให้เปิด Sidebar แล้วล้าง URL ทิ้ง (จะได้ไม่เด้งซ้ำตอนรีเฟรช)
     if (searchParams.get("cart") === "open") {
       setIsCartOpen(true);
       searchParams.delete("cart");
@@ -68,11 +74,6 @@ const MenuPage = () => {
   }, []);
 
   // --- Functions ---
-  const handleAddToCart = (id, name) => {
-    // 1. ดึงข้อมูลเมนูแบบเต็มมาจาก MENU array
-    const fullMenuItem = MENU.find((m) => m.id === id);
-
-    // 2. อัปเดตตะกร้า Local (สำหรับ Sidebar ปกติของคุณ)
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
     setSearchParams(tabId === "all" ? {} : { tab: tabId });
@@ -112,8 +113,10 @@ const MenuPage = () => {
     }
   };
 
-  // ฟังก์ชันใส่ตะกร้า (แก้ให้ "แอดเงียบๆ" ไม่เปิด Sidebar อัตโนมัติ)
+  // ฟังก์ชันใส่ตะกร้า
   const executeAddToCart = (id, name, qty = 1) => {
+    const fullMenuItem = MENU.find((m) => m.id === id);
+
     setCart((prev) => {
       const existing = prev.find((item) => item.id === id);
       if (existing) {
@@ -124,9 +127,7 @@ const MenuPage = () => {
       return [...prev, { id, qty }];
     });
 
-    // 3. อัปเดตข้อมูลส่งไปหน้า OrderPage ผ่าน Context
     setOrderList((prevOrders) => {
-      // สมมติว่าตะกร้าปัจจุบันคือ Order ก้อนแรก (หรือสร้างใหม่ถ้ายังไม่มี)
       let currentOrder =
         prevOrders.length > 0
           ? { ...prevOrders[0] }
@@ -134,38 +135,30 @@ const MenuPage = () => {
       let listKey = currentOrder.List ? "List" : "orderList";
       let currentItems = currentOrder[listKey] || [];
 
-      // เช็คว่ามีสินค้านี้ใน Context หรือยัง
       const existingItemIndex = currentItems.findIndex(
         (item) => item.id === id,
       );
 
       if (existingItemIndex >= 0) {
-        // ถ้ามีแล้ว เพิ่ม quantity
-        currentItems[existingItemIndex].quantity += 1;
+        currentItems[existingItemIndex].quantity += qty;
       } else {
-        // ถ้ายังไม่มี เพิ่ม item ใหม่เข้าไป โดยจัด Format ให้ตรงกับที่ OrderPage ต้องการ
         currentItems.push({
           id: id,
           name: name,
-          price: fullMenuItem ? fullMenuItem.price : 0, // ส่งราคาไปด้วย
+          price: fullMenuItem ? fullMenuItem.price : 0,
           emoji: fullMenuItem ? fullMenuItem.emoji : "🍗",
-          quantity: 1,
+          quantity: qty,
           note: "None",
           size: "Regular",
         });
       }
 
       currentOrder[listKey] = currentItems;
-      return [currentOrder]; // อัปเดต Context
+      return [currentOrder];
     });
-    navigate("/order");
 
-    // โชว์ Toast
     setToastMsg(`Added: ${name}`);
     setTimeout(() => setToastMsg(""), TOAST_DURATION_MS);
-
-    // ปิดบรรทัดข้างล่างนี้ เพื่อไม่ให้ Sidebar เด้งรบกวนลูกค้าตอนกดแอด
-    // setIsCartOpen(true);
   };
 
   const handleUpdateQty = (id, delta) => {
@@ -245,8 +238,8 @@ const MenuPage = () => {
             >
               <div className="absolute inset-0">
                 <img
-                  src={promo.image}
-                  alt={promo.name}
+                  src={promo.img}
+                  alt={promo.title}
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     e.target.src =
@@ -260,14 +253,14 @@ const MenuPage = () => {
                   {promo.tag}
                 </span>
                 <h2 className="font-['Bebas_Neue'] text-5xl leading-[0.9] my-2 drop-shadow-md">
-                  {promo.name}
+                  {promo.title}
                 </h2>
                 <div className="font-['Bebas_Neue'] text-4xl mb-4">
                   {promo.price}
                 </div>
                 <button
                   onClick={() => alert("โปรโมชั่นคอมโบเซตจะมาในเฟสถัดไปครับ!")}
-                  className="bg-[#e4002b] text-white px-8 py-3 rounded-md font-bold font-['Bebas_Neue'] text-xl hover:bg-white hover:text-black transition shadow-lg"
+                  className="bg-[#e4002b] text-white px-8 py-3 rounded-md font-bold font-['Bebas_Neue'] text-xl hover:bg-white hover:text-black transition shadow-lg cursor-pointer"
                 >
                   ORDER NOW
                 </button>
@@ -279,7 +272,7 @@ const MenuPage = () => {
               <button
                 key={i}
                 onClick={() => setCurrentSlide(i)}
-                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? "bg-[#e4002b] scale-150" : "bg-white/40"}`}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${i === currentSlide ? "bg-[#e4002b] scale-150" : "bg-white/40"} cursor-pointer`}
               />
             ))}
           </div>
@@ -298,7 +291,7 @@ const MenuPage = () => {
             {selectedBranch ? (
               <button
                 onClick={() => setIsBranchModalOpen(true)}
-                className="flex items-center gap-2 bg-white border-2 border-[#242424] px-4 py-2 rounded-lg shadow-[4px_4px_0_#242424] hover:bg-gray-100 transition-colors text-sm font-bold"
+                className="flex items-center gap-2 bg-white border-2 border-[#242424] px-4 py-2 rounded-lg shadow-[4px_4px_0_#242424] hover:bg-gray-100 transition-colors text-sm font-bold cursor-pointer"
               >
                 <MapPin size={16} className="text-[#e4002b]" /> Store:{" "}
                 {selectedBranch === "branch1" ? "Asok (HQ)" : selectedBranch}
@@ -306,7 +299,7 @@ const MenuPage = () => {
             ) : (
               <button
                 onClick={() => setIsBranchModalOpen(true)}
-                className="flex items-center gap-2 bg-[#e4002b] text-white border-2 border-[#242424] px-4 py-2 rounded-lg shadow-[4px_4px_0_#242424] hover:bg-black transition-colors text-sm font-bold animate-pulse"
+                className="flex items-center gap-2 bg-[#e4002b] text-white border-2 border-[#242424] px-4 py-2 rounded-lg shadow-[4px_4px_0_#242424] hover:bg-black transition-colors text-sm font-bold animate-pulse cursor-pointer"
               >
                 <MapPin size={16} /> Choose Store
               </button>
@@ -328,7 +321,7 @@ const MenuPage = () => {
               <button
                 key={tab.id}
                 onClick={() => handleTabChange(tab.id)}
-                className={`px-6 py-2 rounded-md font-bold whitespace-nowrap transition-colors border-2 ${activeTab === tab.id ? "bg-[#242424] text-white border-[#242424]" : "border-[#242424] text-[#242424] hover:bg-gray-200"}`}
+                className={`px-6 py-2 rounded-md font-bold whitespace-nowrap transition-colors border-2 cursor-pointer ${activeTab === tab.id ? "bg-[#242424] text-white border-[#242424]" : "border-[#242424] text-[#242424] hover:bg-gray-200"}`}
               >
                 {tab.label}
               </button>
@@ -353,8 +346,7 @@ const MenuPage = () => {
       {/* --- MOBILE CART STICKY BAR --- */}
       <div
         className="md:hidden fixed bottom-0 left-0 right-0 bg-[#242424] p-4 flex justify-between items-center text-white z-40 border-t-4 border-[#e4002b] cursor-pointer"
-        // onClick={() => setIsCartOpen(true)} // <-- เอาของเก่าที่เปิด Sidebar ออก
-        onClick={() => navigate("/order")} // <-- สั่งให้เปลี่ยน URL ไปหน้าตะกร้า (เปลี่ยน path "/order" ตามที่คุณตั้งค่า Route ไว้)
+        onClick={() => navigate("/order")}
       >
         <div>
           <div className="text-xs opacity-60 uppercase font-bold">
@@ -363,13 +355,13 @@ const MenuPage = () => {
           <div className="text-xl font-black text-[#e4002b]">
             ฿{totalPrice.toLocaleString()}.-
           </div>
-          <button className="bg-[#e4002b] px-6 py-2 rounded-full font-black text-sm font-['Bebas_Neue'] shadow-lg flex items-center gap-2">
-            VIEW CART <ArrowRight size={16} />
-          </button>
         </div>
-      )}
+        <button className="bg-[#e4002b] px-6 py-2 rounded-full font-black text-sm font-['Bebas_Neue'] shadow-lg flex items-center gap-2 cursor-pointer">
+          VIEW CART <ArrowRight size={16} />
+        </button>
+      </div>
 
-      {/* Toast Noti (บอกว่าแอดสำเร็จแล้ว) */}
+      {/* Toast Noti */}
       <div
         className={`fixed bottom-8 right-8 bg-[#242424] text-white px-6 py-4 rounded-lg shadow-2xl border-l-4 border-[#e4002b] flex items-center gap-3 transition-all duration-300 z-60 ${toastMsg ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0 pointer-events-none"}`}
       >
@@ -377,7 +369,7 @@ const MenuPage = () => {
         <span className="font-bold">{toastMsg}</span>
       </div>
 
-      {/* Product Modal (ถ้ากดปุ่ม Add ตรงนี้ Sidebar ก็จะไม่เด้งเช่นกัน) */}
+      {/* Product Modal */}
       <ProductModal
         isOpen={!!selectedItem}
         onClose={() => setSelectedItem(null)}
@@ -387,15 +379,22 @@ const MenuPage = () => {
         }
       />
 
-      {/* Cart Sidebar (ตะกร้า) ตั้งค่า z-index ให้สูงสุดเพื่อไม่ให้ Navbar บัง */}
-      <div className="relative z-9999">
+      {/* Cart Sidebar */}
+      <div className="relative z-9998">
         <CartSidebar
           isOpen={isCartOpen}
           onClose={() => setIsCartOpen(false)}
           cartItems={cart}
           onUpdateQty={handleUpdateQty}
+          onOpenLoginModal={() => setIsLoginModalOpen(true)} // ✅ ส่ง Props ตัวนี้เข้าไป
         />
       </div>
+
+      {/* LoginModal */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </div>
   );
 };
